@@ -161,23 +161,29 @@ export default function Dashboard() {
             <div className="flex space-x-4 mb-6 border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => setUploadMode('upload')}
-                className={`pb-3 px-1 font-medium transition ${
+                className={`pb-3 px-1 font-medium transition flex items-center gap-2 ${
                   uploadMode === 'upload'
                     ? 'border-b-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
-                📄 Upload PDF
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                Upload PDF
               </button>
               <button
                 onClick={() => setUploadMode('paste')}
-                className={`pb-3 px-1 font-medium transition ${
+                className={`pb-3 px-1 font-medium transition flex items-center gap-2 ${
                   uploadMode === 'paste'
                     ? 'border-b-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
-                ✏️ Paste Text
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Paste Text
               </button>
             </div>
 
