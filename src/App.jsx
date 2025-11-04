@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -8,7 +8,7 @@ import PrivateRoute from './components/auth/PrivateRoute';
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
+      <Router>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
@@ -22,7 +22,7 @@ function App() {
             }
           />
         </Routes>
-      </BrowserRouter>
+      </Router>
     </AuthProvider>
   );
 }
