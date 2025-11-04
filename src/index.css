@@ -101,6 +101,20 @@
   .scale-in {
     animation: scaleIn 0.5s ease-out forwards;
   }
+
+  /* Interactive background waves */
+  .interactive-bg {
+    @apply absolute inset-0 pointer-events-none overflow-hidden;
+  }
+
+  .wave-line {
+    position: absolute;
+    width: 200%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+    transform-origin: center;
+    transition: transform 0.3s ease-out;
+  }
 }
 
 @keyframes glow-pulse {

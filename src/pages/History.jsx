@@ -4,6 +4,7 @@ import { db } from '../services/firebase';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
+import InteractiveBackground from '../components/InteractiveBackground';
 
 export default function History() {
   const [analyses, setAnalyses] = useState([]);
@@ -69,6 +70,7 @@ export default function History() {
   if (loading) {
     return (
       <div className="min-h-screen relative flex items-center justify-center gradient-bg overflow-hidden">
+        <InteractiveBackground />
         <div className="parallax-bg">
           <div className="absolute top-20 right-10 w-72 h-72 bg-purple-300/20 dark:bg-purple-500/10 rounded-full blur-3xl floating"></div>
           <div className="absolute bottom-20 left-10 w-96 h-96 bg-indigo-300/20 dark:bg-indigo-500/10 rounded-full blur-3xl floating" style={{ animationDelay: '2s' }}></div>
@@ -85,6 +87,9 @@ export default function History() {
 
   return (
     <div className="min-h-screen relative gradient-bg overflow-hidden">
+      {/* Interactive Mouse-Tracking Background */}
+      <InteractiveBackground />
+
       {/* Animated Background Elements */}
       <div className="parallax-bg">
         <div className="absolute top-10 left-20 w-96 h-96 bg-purple-300/10 dark:bg-purple-500/5 rounded-full blur-3xl floating" style={{ animationDelay: '0s' }}></div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
+import InteractiveBackground from '../components/InteractiveBackground';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -45,6 +46,9 @@ export default function Login() {
   
     return (
       <div className="min-h-screen relative flex items-center justify-center gradient-bg px-4 overflow-hidden">
+        {/* Interactive Mouse-Tracking Background */}
+        <InteractiveBackground />
+
         {/* Animated Background Elements */}
         <div className="parallax-bg">
           <div className="absolute top-20 left-10 w-72 h-72 bg-purple-300/20 dark:bg-purple-500/10 rounded-full blur-3xl floating" style={{ animationDelay: '0s' }}></div>

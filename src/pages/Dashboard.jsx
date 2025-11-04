@@ -6,6 +6,8 @@ import { analyzeResume } from '../services/openai';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
 import FileUpload from '../components/upload/FileUpload';
+import InteractiveGraph from '../components/InteractiveGraph';
+import InteractiveBackground from '../components/InteractiveBackground';
 
 export default function Dashboard() {
   const [resumeText, setResumeText] = useState('');
@@ -82,6 +84,9 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen relative gradient-bg overflow-hidden">
+      {/* Interactive Mouse-Tracking Background */}
+      <InteractiveBackground />
+
       {/* Animated Background Elements */}
       <div className="parallax-bg">
         <div className="absolute top-10 right-20 w-96 h-96 bg-purple-300/10 dark:bg-purple-500/5 rounded-full blur-3xl floating" style={{ animationDelay: '0s' }}></div>
@@ -378,37 +383,22 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Detailed Feedback */}
-            <div className="card">
-              <h3 className="text-lg font-bold mb-3 dark:text-white">Detailed Feedback</h3>
-
-              <div className="space-y-4">
-                <div className="border-l-4 border-blue-600 dark:border-blue-400 pl-4">
-                  <h4 className="font-semibold mb-1 dark:text-white">Formatting & Structure</h4>
-                  <div className="flex items-center mb-2">
-                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">Score:</span>
-                    <span className="text-blue-600 dark:text-blue-400 font-bold">{critique.formatting.score}/10</span>
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300">{critique.formatting.feedback}</p>
+            {/* Interactive Detailed Feedback Graphs */}
+            <div className="card slide-in-up" style={{ animationDelay: '0.4s' }}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                  </svg>
                 </div>
-
-                <div className="border-l-4 border-green-600 dark:border-green-400 pl-4">
-                  <h4 className="font-semibold mb-1 dark:text-white">Content Quality</h4>
-                  <div className="flex items-center mb-2">
-                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">Score:</span>
-                    <span className="text-green-600 dark:text-green-400 font-bold">{critique.content.score}/10</span>
-                  </div>
-                  <p className="text-gray-700 dark:text-gray-300">{critique.content.feedback}</p>
-                </div>
-
-                <div className="border-l-4 border-purple-600 dark:border-purple-400 pl-4">
-                  <h4 className="font-semibold mb-1 dark:text-white">ATS Optimization</h4>
-                  <div className="flex items-center mb-2">
-                    <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">Score:</span>
-                    <span className="text-purple-600 dark:text-purple-400 font-bold">{critique.atsScore}/10</span>
-                  </div>
-                </div>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  Interactive Performance Analysis
+                </h3>
               </div>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Hover over the bars to see detailed feedback for each metric
+              </p>
+              <InteractiveGraph critique={critique} />
             </div>
 
             {/* Suggestions */}
