@@ -246,6 +246,16 @@ export default function History() {
                     </div>
                   )}
 
+                  {/* Job Description Badge */}
+                  {analysis.jobDescription && (
+                    <div className="mb-3 inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-lg border border-blue-200/50 dark:border-blue-700/50">
+                      <svg className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                      <span className="text-xs font-semibold text-blue-600 dark:text-blue-400">Job Match Analysis</span>
+                    </div>
+                  )}
+
                   {/* Preview Text */}
                   <div className="p-3 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg border border-gray-200/50 dark:border-gray-700/50">
                     <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
@@ -304,6 +314,42 @@ export default function History() {
                       <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">{selectedAnalysis.critique.summary}</p>
                     </div>
                   </div>
+
+                  {/* Job Description Display - Only show if job description was provided */}
+                  {selectedAnalysis.jobDescription && (
+                    <div className="card card-glow slide-in-up" style={{ animationDelay: '0.1s' }}>
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl shadow-lg">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                          Target Job Description
+                        </h3>
+                      </div>
+                      <div className="p-4 bg-gradient-to-r from-blue-50/50 to-cyan-50/50 dark:from-blue-900/20 dark:to-cyan-900/20 rounded-xl border border-blue-200/30 dark:border-blue-700/30">
+                        <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+                          {selectedAnalysis.jobDescription}
+                        </p>
+                      </div>
+                      {selectedAnalysis.critique?.jobMatch && (
+                        <div className="mt-4 p-4 bg-gradient-to-r from-purple-50/50 to-indigo-50/50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-xl border border-purple-200/30 dark:border-purple-700/30">
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="p-1.5 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg">
+                              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                              </svg>
+                            </div>
+                            <span className="font-bold text-gray-800 dark:text-gray-200">Job Match Score: {selectedAnalysis.critique.jobMatch.score}/10</span>
+                          </div>
+                          <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+                            {selectedAnalysis.critique.jobMatch.feedback}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
                   {/* Strengths & Weaknesses - Modern Style */}
                   <div className="grid md:grid-cols-2 gap-6">

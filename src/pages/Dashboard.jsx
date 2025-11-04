@@ -11,6 +11,7 @@ import InteractiveBackground from '../components/InteractiveBackground';
 
 export default function Dashboard() {
   const [resumeText, setResumeText] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [critique, setCritique] = useState(null);
   const [error, setError] = useState('');
@@ -31,7 +32,7 @@ export default function Dashboard() {
 
   async function handleAnalyze(textToAnalyze) {
     const text = textToAnalyze || resumeText;
-    
+
     if (!text.trim()) {
       setError('Please provide resume text');
       return;
@@ -42,16 +43,17 @@ export default function Dashboard() {
     setCritique(null);
 
     try {
-      const result = await analyzeResume(text);
-      
+      const result = await analyzeResume(text, jobDescription);
+
       if (result.success) {
         setCritique(result.analysis);
-        
+
         // Save to Firestore
         const analysisId = `${currentUser.uid}_${Date.now()}`;
         await setDoc(doc(db, 'analyses', analysisId), {
           userId: currentUser.uid,
           resumeText: text.substring(0, 500), // Save preview
+          jobDescription: jobDescription || null,
           critique: result.analysis,
           createdAt: new Date().toISOString(),
           userEmail: currentUser.email
@@ -79,6 +81,7 @@ export default function Dashboard() {
   function handleNewAnalysis() {
     setCritique(null);
     setResumeText('');
+    setJobDescription('');
     setError('');
   }
 
@@ -148,7 +151,7 @@ export default function Dashboard() {
           <div className="card max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold mb-4 dark:text-white">Analyze Your Resume</h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Upload a PDF or paste your resume text to get instant AI-powered feedback
+              Upload a PDF or paste your resume text, optionally add a job description for targeted analysis
             </p>
 
             {error && (
@@ -161,34 +164,62 @@ export default function Dashboard() {
             <div className="flex space-x-4 mb-6 border-b border-gray-200 dark:border-gray-700">
               <button
                 onClick={() => setUploadMode('upload')}
-                className={`pb-3 px-1 font-medium transition ${
+                className={`pb-3 px-1 font-medium transition flex items-center gap-2 ${
                   uploadMode === 'upload'
                     ? 'border-b-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
-                📄 Upload PDF
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                Upload PDF
               </button>
               <button
                 onClick={() => setUploadMode('paste')}
-                className={`pb-3 px-1 font-medium transition ${
+                className={`pb-3 px-1 font-medium transition flex items-center gap-2 ${
                   uploadMode === 'paste'
                     ? 'border-b-2 border-blue-600 dark:border-blue-400 text-blue-600 dark:text-blue-400'
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                 }`}
               >
-                ✏️ Paste Text
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Paste Text
               </button>
             </div>
 
             {/* Upload Mode */}
             {uploadMode === 'upload' && (
-              <FileUpload onTextExtracted={handleTextExtracted} />
+              <div className="space-y-6">
+                <FileUpload onTextExtracted={handleTextExtracted} />
+
+                {/* Job Description (Optional) */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Job Description (Optional)
+                  </label>
+                  <textarea
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    rows="8"
+                    className="input-field font-mono text-sm"
+                    placeholder="Paste the job description here for targeted resume analysis..."
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Add a job description to get targeted feedback on how well your resume matches the position
+                  </p>
+                </div>
+              </div>
             )}
 
             {/* Paste Mode */}
             {uploadMode === 'paste' && (
-              <form onSubmit={handlePasteSubmit} className="space-y-4">
+              <form onSubmit={handlePasteSubmit} className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Resume Text
@@ -201,6 +232,26 @@ export default function Dashboard() {
                     placeholder="Paste your resume text here..."
                     required
                   />
+                </div>
+
+                {/* Job Description (Optional) */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-2">
+                    <svg className="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Job Description (Optional)
+                  </label>
+                  <textarea
+                    value={jobDescription}
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    rows="8"
+                    className="input-field font-mono text-sm"
+                    placeholder="Paste the job description here for targeted resume analysis..."
+                  />
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Add a job description to get targeted feedback on how well your resume matches the position
+                  </p>
                 </div>
 
                 <button type="submit" className="btn-primary w-full">
@@ -368,6 +419,28 @@ export default function Dashboard() {
                     </div>
                   </div>
                 </div>
+
+                {/* Job Match Score (only shown if job description was provided) */}
+                {critique.jobMatch && (
+                  <div className="group">
+                    <div className="flex justify-between mb-2">
+                      <span className="font-semibold text-gray-700 dark:text-gray-300">Job Match Score</span>
+                      <span className="font-bold text-blue-600 dark:text-blue-400">{critique.jobMatch.score}/10</span>
+                    </div>
+                    <div className="relative h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                      <div
+                        className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full transition-all duration-1000 ease-out"
+                        style={{
+                          width: `${critique.jobMatch.score * 10}%`,
+                          boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)'
+                        }}
+                      >
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{critique.jobMatch.feedback}</p>
+                  </div>
+                )}
               </div>
             </div>
 
