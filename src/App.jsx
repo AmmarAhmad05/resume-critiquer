@@ -1,14 +1,15 @@
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';  // ← Changed from BrowserRouter
 import { AuthProvider } from './context/AuthContext';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import History from './pages/History';
 import PrivateRoute from './components/auth/PrivateRoute';
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
+      <HashRouter>  {/* ← Changed from BrowserRouter */}
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" />} />
           <Route path="/login" element={<Login />} />
@@ -21,8 +22,16 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/history"
+            element={
+              <PrivateRoute>
+                <History />
+              </PrivateRoute>
+            }
+          />
         </Routes>
-      </Router>
+      </HashRouter>
     </AuthProvider>
   );
 }
