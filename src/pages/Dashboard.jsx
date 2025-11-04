@@ -254,33 +254,124 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Visual Score Breakdown */}
+            <div className="card card-glow slide-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                  Score Breakdown
+                </h3>
+              </div>
+
+              <div className="space-y-6">
+                {/* Formatting Score */}
+                <div className="group">
+                  <div className="flex justify-between mb-2">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">Formatting & Structure</span>
+                    <span className="font-bold text-indigo-600 dark:text-indigo-400">{critique.formatting.score}/10</span>
+                  </div>
+                  <div className="relative h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-1000 ease-out"
+                      style={{
+                        width: `${critique.formatting.score * 10}%`,
+                        boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{critique.formatting.feedback}</p>
+                </div>
+
+                {/* Content Score */}
+                <div className="group">
+                  <div className="flex justify-between mb-2">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">Content Quality</span>
+                    <span className="font-bold text-green-600 dark:text-green-400">{critique.content.score}/10</span>
+                  </div>
+                  <div className="relative h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full transition-all duration-1000 ease-out"
+                      style={{
+                        width: `${critique.content.score * 10}%`,
+                        boxShadow: '0 0 20px rgba(34, 197, 94, 0.5)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">{critique.content.feedback}</p>
+                </div>
+
+                {/* ATS Score */}
+                <div className="group">
+                  <div className="flex justify-between mb-2">
+                    <span className="font-semibold text-gray-700 dark:text-gray-300">ATS Optimization</span>
+                    <span className="font-bold text-purple-600 dark:text-purple-400">{critique.atsScore}/10</span>
+                  </div>
+                  <div className="relative h-4 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div
+                      className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-1000 ease-out"
+                      style={{
+                        width: `${critique.atsScore * 10}%`,
+                        boxShadow: '0 0 20px rgba(168, 85, 247, 0.5)'
+                      }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Strengths & Weaknesses */}
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="card">
-                <h3 className="text-lg font-bold mb-3 flex items-center dark:text-white">
-                  <span className="text-green-600 dark:text-green-400 mr-2">✓</span>
-                  Strengths
-                </h3>
-                <ul className="space-y-2">
+              <div className="card slide-in-left" style={{ animationDelay: '0.3s' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2.5 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                    Keep These Strengths
+                  </h3>
+                </div>
+                <ul className="space-y-3">
                   {critique.strengths.map((strength, idx) => (
-                    <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start">
-                      <span className="text-green-500 dark:text-green-400 mr-2 mt-1">•</span>
-                      {strength}
+                    <li key={idx} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center mt-0.5">
+                        <span className="text-green-600 dark:text-green-400 text-sm font-bold">{idx + 1}</span>
+                      </div>
+                      <span className="text-gray-700 dark:text-gray-300">{strength}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="card">
-                <h3 className="text-lg font-bold mb-3 flex items-center dark:text-white">
-                  <span className="text-yellow-600 dark:text-yellow-400 mr-2">!</span>
-                  Areas for Improvement
-                </h3>
-                <ul className="space-y-2">
+              <div className="card slide-in-right" style={{ animationDelay: '0.3s' }}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2.5 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                  <h3 className="text-lg font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                    Areas to Improve
+                  </h3>
+                </div>
+                <ul className="space-y-3">
                   {critique.weaknesses.map((weakness, idx) => (
-                    <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start">
-                      <span className="text-yellow-500 dark:text-yellow-400 mr-2 mt-1">•</span>
-                      {weakness}
+                    <li key={idx} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-amber-50/50 dark:hover:bg-amber-900/20 transition-all">
+                      <div className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mt-0.5">
+                        <span className="text-amber-600 dark:text-amber-400 text-sm font-bold">{idx + 1}</span>
+                      </div>
+                      <span className="text-gray-700 dark:text-gray-300">{weakness}</span>
                     </li>
                   ))}
                 </ul>
