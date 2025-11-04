@@ -7,11 +7,22 @@ export default function Home() {
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [scrollY, setScrollY] = useState(0);
   const [stats, setStats] = useState({
     resumes: 0,
     users: 0,
     avgScore: 0
   });
+
+  // Parallax scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   // Animated counter effect
   useEffect(() => {
@@ -163,10 +174,13 @@ export default function Home() {
 
       {/* Hero Section */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center space-y-8 scale-in">
+        <div className="text-center space-y-8">
           {/* Main Heading */}
-          <div className="space-y-4">
-            <h1 className="text-6xl md:text-7xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+          <div
+            className="space-y-4 scale-in"
+            style={{ transform: `translateY(${scrollY * -0.15}px)` }}
+          >
+            <h1 className="text-6xl md:text-7xl font-black gradient-text-animated leading-tight">
               Perfect Your Resume
             </h1>
             <p className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200">
@@ -175,13 +189,19 @@ export default function Home() {
           </div>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p
+            className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
+            style={{ transform: `translateY(${scrollY * -0.1}px)` }}
+          >
             Get instant, professional feedback on your resume with detailed scoring,
             actionable suggestions, and ATS optimization tips.
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+          <div
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
+            style={{ transform: `translateY(${scrollY * -0.05}px)` }}
+          >
             <button
               onClick={() => navigate('/signup')}
               className="btn-primary text-lg px-8 py-4 shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 group"
@@ -203,11 +223,14 @@ export default function Home() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mt-24 slide-in-up">
+        <div className="grid md:grid-cols-3 gap-8 mt-24">
           {/* Feature 1 */}
-          <div className="card group hover:scale-105 transition-all duration-300">
+          <div
+            className="card group hover:scale-105 transition-all duration-300"
+            style={{ transform: `translateY(${scrollY * 0.03}px)` }}
+          >
             <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg group-hover:shadow-purple-500/50 transition-shadow">
+              <div className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg group-hover:shadow-purple-500/50 transition-shadow floating-element stagger-1">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
@@ -222,9 +245,12 @@ export default function Home() {
           </div>
 
           {/* Feature 2 */}
-          <div className="card group hover:scale-105 transition-all duration-300">
+          <div
+            className="card group hover:scale-105 transition-all duration-300"
+            style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+          >
             <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg group-hover:shadow-pink-500/50 transition-shadow">
+              <div className="p-4 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg group-hover:shadow-pink-500/50 transition-shadow floating-element stagger-2">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
@@ -239,9 +265,12 @@ export default function Home() {
           </div>
 
           {/* Feature 3 */}
-          <div className="card group hover:scale-105 transition-all duration-300">
+          <div
+            className="card group hover:scale-105 transition-all duration-300"
+            style={{ transform: `translateY(${scrollY * 0.07}px)` }}
+          >
             <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl shadow-lg group-hover:shadow-orange-500/50 transition-shadow">
+              <div className="p-4 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl shadow-lg group-hover:shadow-orange-500/50 transition-shadow floating-element stagger-3">
                 <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
@@ -257,55 +286,77 @@ export default function Home() {
         </div>
 
         {/* Stats Section */}
-        <div className="mt-32 slide-in-up">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="stat-card space-y-2 shimmer">
-              <div className="text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                {stats.resumes.toLocaleString()}+
+        <div className="mt-32 relative">
+          <div
+            className="parallax-slow"
+            style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+          >
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="stat-card-modern space-y-3 floating-element stagger-1">
+                <div className="relative">
+                  <div className="blob-bg w-32 h-32 bg-indigo-400 top-0 right-0 -z-10"></div>
+                  <div className="text-6xl font-black gradient-text-animated">
+                    {stats.resumes.toLocaleString()}+
+                  </div>
+                </div>
+                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                  Resumes Analyzed
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Helping job seekers worldwide
+                </p>
               </div>
-              <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Resumes Analyzed
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Helping job seekers worldwide
-              </p>
-            </div>
 
-            <div className="stat-card space-y-2 shimmer">
-              <div className="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-                {stats.users.toLocaleString()}+
+              <div className="stat-card-modern space-y-3 floating-element stagger-2">
+                <div className="relative">
+                  <div className="blob-bg w-32 h-32 bg-purple-400 top-0 right-0 -z-10"></div>
+                  <div className="text-6xl font-black gradient-text-animated">
+                    {stats.users.toLocaleString()}+
+                  </div>
+                </div>
+                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                  Happy Users
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Trusted by professionals
+                </p>
               </div>
-              <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Happy Users
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Trusted by professionals
-              </p>
-            </div>
 
-            <div className="stat-card space-y-2 shimmer">
-              <div className="text-5xl font-black bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
-                {stats.avgScore}%
+              <div className="stat-card-modern space-y-3 floating-element stagger-3">
+                <div className="relative">
+                  <div className="blob-bg w-32 h-32 bg-pink-400 top-0 right-0 -z-10"></div>
+                  <div className="text-6xl font-black gradient-text-animated">
+                    {stats.avgScore}%
+                  </div>
+                </div>
+                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
+                  Average Improvement
+                </div>
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  After implementing our tips
+                </p>
               </div>
-              <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-                Average Score Improvement
-              </div>
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                After implementing our tips
-              </p>
             </div>
           </div>
         </div>
 
         {/* How It Works Section */}
-        <div className="mt-32 space-y-12 slide-in-up">
-          <h2 className="text-4xl md:text-5xl font-black text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            How It Works
-          </h2>
+        <div className="mt-32 space-y-12 relative">
+          <div
+            className="parallax-medium"
+            style={{ transform: `translateY(${scrollY * 0.08}px)` }}
+          >
+            <h2 className="text-4xl md:text-5xl font-black text-center gradient-text-animated">
+              How It Works
+            </h2>
+          </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <div className="card text-center space-y-4 perspective-card">
+            <div
+              className="card text-center space-y-4 perspective-card"
+              style={{ transform: `translateY(${scrollY * 0.02}px)` }}
+            >
               <div className="perspective-card-inner">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float">
                   1
@@ -320,7 +371,10 @@ export default function Home() {
             </div>
 
             {/* Step 2 */}
-            <div className="card text-center space-y-4 perspective-card">
+            <div
+              className="card text-center space-y-4 perspective-card"
+              style={{ transform: `translateY(${scrollY * 0.04}px)` }}
+            >
               <div className="perspective-card-inner">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float" style={{ animationDelay: '0.5s' }}>
                   2
@@ -335,7 +389,10 @@ export default function Home() {
             </div>
 
             {/* Step 3 */}
-            <div className="card text-center space-y-4 perspective-card">
+            <div
+              className="card text-center space-y-4 perspective-card"
+              style={{ transform: `translateY(${scrollY * 0.06}px)` }}
+            >
               <div className="perspective-card-inner">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float" style={{ animationDelay: '1s' }}>
                   3
@@ -351,10 +408,13 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Sample Resumes Section */}
-        <div className="mt-32 space-y-12 slide-in-up">
-          <div className="text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+        {/* Sample Resumes Section - Zigzag Layout */}
+        <div className="mt-32 space-y-16 relative">
+          <div
+            className="text-center space-y-4 parallax-slow"
+            style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+          >
+            <h2 className="text-4xl md:text-5xl font-black gradient-text-animated">
               Sample Resume Scores
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -362,63 +422,110 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {sampleResumes.map((resume, index) => (
-              <div key={index} className="resume-card group">
-                <div className="space-y-4">
-                  {/* Score Badge */}
-                  <div className="flex justify-between items-start">
-                    <div className={`p-3 bg-gradient-to-br ${resume.color} rounded-xl shadow-lg`}>
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                      </svg>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                        {resume.score}
+          <div className="zigzag-layout">
+            {sampleResumes.map((resume, index) => {
+              const isEven = index % 2 === 0;
+              return (
+                <div
+                  key={index}
+                  className={isEven ? 'resume-card-left' : 'resume-card-right'}
+                  style={{
+                    transform: `translateX(${isEven ? scrollY * 0.02 : -scrollY * 0.02}px)`,
+                    opacity: 1,
+                  }}
+                >
+                  {isEven ? (
+                    <>
+                      {/* Score Display */}
+                      <div className="flex flex-col items-center justify-center space-y-4 relative">
+                        <div className={`blob-bg w-48 h-48 bg-gradient-to-br ${resume.color} -z-10`}></div>
+                        <div className="text-center">
+                          <div className="text-7xl font-black text-white drop-shadow-2xl">
+                            {resume.score}
+                          </div>
+                          <div className="text-lg font-bold text-white/90 mt-2">
+                            Resume Score
+                          </div>
+                        </div>
                       </div>
-                      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">
-                        Score
+                      {/* Content */}
+                      <div className="space-y-4">
+                        <div className={`inline-flex p-4 bg-gradient-to-br ${resume.color} rounded-2xl shadow-xl`}>
+                          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-3xl font-black text-gray-800 dark:text-gray-200">
+                          {resume.title}
+                        </h3>
+                        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                          {resume.description}
+                        </p>
+                        <div className="flex flex-wrap gap-3 pt-2">
+                          {resume.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className={`px-4 py-2 text-sm font-bold rounded-full bg-gradient-to-r ${resume.color} text-white shadow-lg`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Title and Description */}
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
-                      {resume.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {resume.description}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {resume.tags.map((tag, tagIndex) => (
-                      <span
-                        key={tagIndex}
-                        className="px-3 py-1 text-xs font-semibold rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* View Example Button */}
-                  <button className="w-full mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 font-semibold hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-800/30 dark:hover:to-pink-800/30 transition-all duration-300 group-hover:scale-105">
-                    View Example
-                  </button>
+                    </>
+                  ) : (
+                    <>
+                      {/* Content */}
+                      <div className="space-y-4">
+                        <div className={`inline-flex p-4 bg-gradient-to-br ${resume.color} rounded-2xl shadow-xl`}>
+                          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                          </svg>
+                        </div>
+                        <h3 className="text-3xl font-black text-gray-800 dark:text-gray-200">
+                          {resume.title}
+                        </h3>
+                        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                          {resume.description}
+                        </p>
+                        <div className="flex flex-wrap gap-3 pt-2">
+                          {resume.tags.map((tag, tagIndex) => (
+                            <span
+                              key={tagIndex}
+                              className={`px-4 py-2 text-sm font-bold rounded-full bg-gradient-to-r ${resume.color} text-white shadow-lg`}
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      {/* Score Display */}
+                      <div className="flex flex-col items-center justify-center space-y-4 relative">
+                        <div className={`blob-bg w-48 h-48 bg-gradient-to-br ${resume.color} -z-10`}></div>
+                        <div className="text-center">
+                          <div className="text-7xl font-black text-white drop-shadow-2xl">
+                            {resume.score}
+                          </div>
+                          <div className="text-lg font-bold text-white/90 mt-2">
+                            Resume Score
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* FAQs Section */}
-        <div className="mt-32 space-y-12 slide-in-up">
-          <div className="text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+        <div className="mt-32 space-y-12 relative">
+          <div
+            className="text-center space-y-4 parallax-fast"
+            style={{ transform: `translateY(${scrollY * 0.12}px)` }}
+          >
+            <h2 className="text-4xl md:text-5xl font-black gradient-text-animated">
               Frequently Asked Questions
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -426,19 +533,22 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto space-y-4">
+          <div className="max-w-5xl mx-auto faq-grid">
             {faqs.map((faq, index) => (
               <div
                 key={index}
                 className="faq-item"
                 onClick={() => toggleFaq(index)}
+                style={{
+                  transform: `translateY(${scrollY * (0.01 + index * 0.005)}px)`,
+                }}
               >
                 <div className="flex justify-between items-center gap-4">
                   <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 flex-1">
                     {faq.question}
                   </h3>
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center transition-transform duration-300 ${openFaqIndex === index ? 'rotate-180' : ''}`}>
-                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center transition-transform duration-300 shadow-lg ${openFaqIndex === index ? 'rotate-180' : ''}`}>
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
@@ -454,24 +564,36 @@ export default function Home() {
         </div>
 
         {/* Final CTA */}
-        <div className="mt-32 card max-w-3xl mx-auto text-center space-y-6 card-glow">
-          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Ready to Land Your Dream Job?
-          </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Join thousands of job seekers who have improved their resumes with AI-powered insights
-          </p>
-          <button
-            onClick={() => navigate('/signup')}
-            className="btn-primary text-lg px-10 py-4 shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 group"
+        <div className="mt-32 relative">
+          <div
+            className="card max-w-4xl mx-auto text-center space-y-8 card-glow relative overflow-hidden"
+            style={{ transform: `translateY(${scrollY * -0.02}px)` }}
           >
-            <span className="flex items-center gap-3">
-              Get Started for Free
-              <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </span>
-          </button>
+            <div className="blob-bg w-64 h-64 bg-purple-400 top-0 left-0 -z-10"></div>
+            <div className="blob-bg w-64 h-64 bg-indigo-400 bottom-0 right-0 -z-10"></div>
+
+            <div className="relative z-10 space-y-6">
+              <h2 className="text-4xl md:text-5xl font-black gradient-text-animated">
+                Ready to Land Your Dream Job?
+              </h2>
+              <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
+                Join thousands of job seekers who have improved their resumes with AI-powered insights
+              </p>
+              <div className="pt-4">
+                <button
+                  onClick={() => navigate('/signup')}
+                  className="btn-primary text-xl px-12 py-5 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 group"
+                >
+                  <span className="flex items-center gap-3">
+                    Get Started for Free
+                    <svg className="w-7 h-7 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
