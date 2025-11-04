@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Signup() {
@@ -8,8 +9,9 @@ export default function Signup() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-  
+
     const { signup, loginWithGoogle } = useAuth();
+    const { isDark, toggleTheme } = useTheme();
     const navigate = useNavigate();
   
     async function handleSubmit(e) {
@@ -51,22 +53,39 @@ export default function Signup() {
     }
   
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 px-4">
+        {/* Theme Toggle Button */}
+        <button
+          onClick={toggleTheme}
+          className="fixed top-4 right-4 p-3 rounded-lg bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-all"
+          aria-label="Toggle theme"
+        >
+          {isDark ? (
+            <svg className="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6 text-gray-700" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+            </svg>
+          )}
+        </button>
+
         <div className="card max-w-md w-full">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
-            <p className="text-gray-600">Start critiquing resumes with AI</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Create Account</h1>
+            <p className="text-gray-600 dark:text-gray-400">Start critiquing resumes with AI</p>
           </div>
-          
+
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-4 text-sm">
+            <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg mb-4 text-sm">
               {error}
             </div>
           )}
-  
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email</label>
               <input
                 type="email"
                 value={email}
@@ -78,7 +97,7 @@ export default function Signup() {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password</label>
               <input
                 type="password"
                 value={password}
@@ -88,9 +107,9 @@ export default function Signup() {
                 placeholder="Min. 6 characters"
               />
             </div>
-  
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Password</label>
               <input
                 type="password"
                 value={confirmPassword}
@@ -109,17 +128,17 @@ export default function Signup() {
           <div className="mt-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300"></div>
+                <div className="w-full border-t border-gray-300 dark:border-gray-600"></div>
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Or continue with</span>
               </div>
             </div>
-  
+
             <button
               onClick={handleGoogleSignup}
               disabled={loading}
-              className="mt-4 w-full bg-white border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition flex items-center justify-center space-x-2 font-medium"
+              className="mt-4 w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 py-2 px-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition flex items-center justify-center space-x-2 font-medium"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -132,9 +151,9 @@ export default function Signup() {
           </div>
   
           <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{' '}
-              <Link to="/login" className="text-blue-600 hover:underline font-medium">
+              <Link to="/login" className="text-blue-600 dark:text-blue-400 hover:underline font-medium">
                 Log in
               </Link>
             </p>

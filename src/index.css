@@ -5,18 +5,22 @@
 @layer components {
   .btn-primary {
     @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply dark:bg-blue-500 dark:hover:bg-blue-600;
   }
-  
+
   .btn-secondary {
     @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition;
+    @apply dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600;
   }
-  
+
   .card {
     @apply bg-white rounded-lg shadow-lg p-6;
+    @apply dark:bg-gray-800 dark:shadow-2xl;
   }
-  
+
   .input-field {
     @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent;
+    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500;
   }
 }
 
