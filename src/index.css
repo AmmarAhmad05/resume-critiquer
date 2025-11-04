@@ -2,38 +2,203 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
 @layer components {
   .btn-primary {
-    @apply bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed;
-    @apply dark:bg-blue-500 dark:hover:bg-blue-600;
+    @apply relative px-8 py-3.5 rounded-xl font-semibold text-white overflow-hidden;
+    @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600;
+    @apply hover:from-indigo-500 hover:via-purple-500 hover:to-indigo-500;
+    @apply transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/50;
+    @apply transition-all duration-300 ease-out;
+    @apply disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+    @apply dark:from-indigo-500 dark:via-purple-500 dark:to-indigo-500;
+    @apply before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent;
+    @apply before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-700;
   }
 
   .btn-secondary {
-    @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-300 transition;
-    @apply dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600;
+    @apply px-6 py-3 rounded-xl font-semibold;
+    @apply bg-white/10 backdrop-blur-sm border border-purple-200/50 text-purple-900;
+    @apply hover:bg-white/20 hover:border-purple-300/70 hover:shadow-lg;
+    @apply transform hover:scale-105 transition-all duration-300;
+    @apply dark:bg-gray-800/50 dark:border-purple-500/30 dark:text-purple-200;
+    @apply dark:hover:bg-gray-700/70 dark:hover:border-purple-400/50;
   }
 
   .card {
-    @apply bg-white rounded-lg shadow-lg p-6;
-    @apply dark:bg-gray-800 dark:shadow-2xl;
+    @apply relative bg-white/80 backdrop-blur-md rounded-2xl shadow-xl p-6;
+    @apply border border-purple-100/50;
+    @apply dark:bg-gray-800/80 dark:border-purple-500/20 dark:shadow-2xl;
+    @apply transform transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10;
+    @apply dark:hover:shadow-purple-500/20;
+  }
+
+  .card-glow {
+    @apply relative;
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+
+  .score-glow {
+    @apply relative;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    animation: score-pulse 2s ease-in-out infinite;
   }
 
   .input-field {
-    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-transparent;
-    @apply dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500;
+    @apply w-full px-5 py-3.5 rounded-xl font-medium;
+    @apply bg-white/70 backdrop-blur-sm;
+    @apply border-2 border-purple-200/50;
+    @apply focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500;
+    @apply transition-all duration-300;
+    @apply dark:bg-gray-800/70 dark:border-purple-500/30 dark:text-white;
+    @apply dark:focus:ring-purple-400/50 dark:focus:border-purple-400;
+    @apply placeholder:text-gray-400 dark:placeholder:text-gray-500;
+  }
+
+  .gradient-bg {
+    @apply bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50;
+    @apply dark:from-gray-900 dark:via-purple-900/20 dark:to-indigo-900/20;
+  }
+
+  .parallax-bg {
+    @apply absolute inset-0 overflow-hidden pointer-events-none;
+  }
+
+  .floating {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+
+  .slide-in-up {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+
+  .slide-in-left {
+    animation: slideInLeft 0.6s ease-out forwards;
+  }
+
+  .slide-in-right {
+    animation: slideInRight 0.6s ease-out forwards;
+  }
+
+  .scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
   }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1), 0 0 40px rgba(168, 85, 247, 0.05);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.2), 0 0 60px rgba(168, 85, 247, 0.1);
+  }
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@keyframes score-pulse {
+  0%, 100% {
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.4), 0 0 40px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 30px rgba(168, 85, 247, 0.6), 0 0 60px rgba(168, 85, 247, 0.3);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(2deg);
+  }
+  66% {
+    transform: translateY(-10px) rotate(-2deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-purple-400 dark:bg-purple-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-purple-500 dark:bg-purple-500;
 }
