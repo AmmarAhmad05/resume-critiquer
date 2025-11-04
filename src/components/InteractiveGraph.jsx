@@ -38,18 +38,20 @@ export default function InteractiveGraph({ critique }) {
   return (
     <div className="space-y-6">
       {/* Interactive Bar Chart */}
-      <div className="relative p-8 pt-12 rounded-2xl bg-gradient-to-br from-purple-50/50 via-indigo-50/50 to-pink-50/50 dark:from-purple-900/10 dark:via-indigo-900/10 dark:to-pink-900/10 border border-purple-200/30 dark:border-purple-700/30">
-        <div className="grid grid-cols-3 gap-8 items-end h-72">
+      <div className="relative p-8 pt-16 pb-16 rounded-2xl bg-gradient-to-br from-purple-50/50 via-indigo-50/50 to-pink-50/50 dark:from-purple-900/10 dark:via-indigo-900/10 dark:to-pink-900/10 border border-purple-200/30 dark:border-purple-700/30">
+        <div className="grid grid-cols-3 gap-8 items-end h-72 relative">
           {metrics.map((metric, idx) => (
             <div
               key={idx}
-              className="relative flex flex-col items-center cursor-pointer group h-full justify-end"
+              className="relative flex flex-col items-center cursor-pointer group h-full justify-end pt-10"
               onMouseEnter={() => setHoveredBar(idx)}
               onMouseLeave={() => setHoveredBar(null)}
             >
               {/* Score Label */}
-              <div className={`absolute -top-2 transition-all duration-300 ${hoveredBar === idx ? 'scale-125 -translate-y-2' : 'scale-100'}`}>
-                <div className={`px-3 py-1.5 rounded-lg ${metric.gradientClass} text-white font-bold text-sm shadow-lg`}>
+              <div className={`absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-300 z-10 ${hoveredBar === idx ? 'scale-125 -translate-y-2' : 'scale-100'}`}
+                style={{ transform: hoveredBar === idx ? 'translateX(-50%) translateY(-0.5rem) scale(1.25)' : 'translateX(-50%) scale(1)' }}
+              >
+                <div className={`px-3 py-1.5 rounded-lg ${metric.gradientClass} text-white font-bold text-sm shadow-lg whitespace-nowrap`}>
                   {metric.score}/10
                 </div>
               </div>
@@ -79,10 +81,10 @@ export default function InteractiveGraph({ critique }) {
         </div>
 
         {/* Baseline */}
-        <div className="absolute bottom-[60px] left-8 right-8 h-0.5 bg-gray-300 dark:bg-gray-700"></div>
+        <div className="absolute bottom-[64px] left-8 right-8 h-0.5 bg-gray-300 dark:bg-gray-700"></div>
 
         {/* Y-axis labels */}
-        <div className="absolute left-2 bottom-[60px] top-12 flex flex-col justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
+        <div className="absolute left-2 bottom-[64px] top-16 flex flex-col justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
           <span>10</span>
           <span>7.5</span>
           <span>5</span>
