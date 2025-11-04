@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { analyzeResume } from '../services/openai';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../services/firebase';
+import FileUpload from '../components/upload/FileUpload';
 
 export default function Dashboard() {
   const [resumeText, setResumeText] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [critique, setCritique] = useState(null);
   const [error, setError] = useState('');
+  const [uploadMode, setUploadMode] = useState('upload'); // 'upload' or 'paste'
   
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
@@ -23,11 +25,11 @@ export default function Dashboard() {
     }
   }
 
-  async function handleAnalyze(e) {
-    e.preventDefault();
+  async function handleAnalyze(textToAnalyze) {
+    const text = textToAnalyze || resumeText;
     
-    if (!resumeText.trim()) {
-      setError('Please paste your resume text');
+    if (!text.trim()) {
+      setError('Please provide resume text');
       return;
     }
 
@@ -36,7 +38,7 @@ export default function Dashboard() {
     setCritique(null);
 
     try {
-      const result = await analyzeResume(resumeText);
+      const result = await analyzeResume(text);
       
       if (result.success) {
         setCritique(result.analysis);
@@ -45,7 +47,7 @@ export default function Dashboard() {
         const analysisId = `${currentUser.uid}_${Date.now()}`;
         await setDoc(doc(db, 'analyses', analysisId), {
           userId: currentUser.uid,
-          resumeText: resumeText.substring(0, 500), // Save preview
+          resumeText: text.substring(0, 500), // Save preview
           critique: result.analysis,
           createdAt: new Date().toISOString(),
           userEmail: currentUser.email
@@ -58,6 +60,16 @@ export default function Dashboard() {
     } finally {
       setAnalyzing(false);
     }
+  }
+
+  function handleTextExtracted(text) {
+    setResumeText(text);
+    handleAnalyze(text);
+  }
+
+  function handlePasteSubmit(e) {
+    e.preventDefault();
+    handleAnalyze();
   }
 
   function handleNewAnalysis() {
@@ -89,7 +101,7 @@ export default function Dashboard() {
           <div className="card max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold mb-4">Analyze Your Resume</h2>
             <p className="text-gray-600 mb-6">
-              Paste your resume text below and get instant AI-powered feedback
+              Upload a PDF or paste your resume text to get instant AI-powered feedback
             </p>
 
             {error && (
@@ -98,25 +110,57 @@ export default function Dashboard() {
               </div>
             )}
 
-            <form onSubmit={handleAnalyze} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Resume Text
-                </label>
-                <textarea
-                  value={resumeText}
-                  onChange={(e) => setResumeText(e.target.value)}
-                  rows="15"
-                  className="input-field font-mono text-sm"
-                  placeholder="Paste your resume text here..."
-                  required
-                />
-              </div>
-              
-              <button type="submit" className="btn-primary w-full">
-                Analyze Resume with AI
+            {/* Tab Switcher */}
+            <div className="flex space-x-4 mb-6 border-b border-gray-200">
+              <button
+                onClick={() => setUploadMode('upload')}
+                className={`pb-3 px-1 font-medium transition ${
+                  uploadMode === 'upload'
+                    ? 'border-b-2 border-blue-600 text-blue-600'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                📄 Upload PDF
               </button>
-            </form>
+              <button
+                onClick={() => setUploadMode('paste')}
+                className={`pb-3 px-1 font-medium transition ${
+                  uploadMode === 'paste'
+                    ? 'border-b-2 border-blue-600 text-blue-600'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                ✏️ Paste Text
+              </button>
+            </div>
+
+            {/* Upload Mode */}
+            {uploadMode === 'upload' && (
+              <FileUpload onTextExtracted={handleTextExtracted} />
+            )}
+
+            {/* Paste Mode */}
+            {uploadMode === 'paste' && (
+              <form onSubmit={handlePasteSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Resume Text
+                  </label>
+                  <textarea
+                    value={resumeText}
+                    onChange={(e) => setResumeText(e.target.value)}
+                    rows="15"
+                    className="input-field font-mono text-sm"
+                    placeholder="Paste your resume text here..."
+                    required
+                  />
+                </div>
+                
+                <button type="submit" className="btn-primary w-full">
+                  Analyze Resume with AI
+                </button>
+              </form>
+            )}
           </div>
         )}
 

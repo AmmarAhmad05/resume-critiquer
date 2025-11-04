@@ -15,9 +15,11 @@
   "dependencies": {
     "axios": "^1.13.1",
     "firebase": "^12.5.0",
+    "pdfjs-dist": "^3.11.174",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.66.0",
+    "react-pdf": "^10.2.0",
     "react-router-dom": "^7.9.5"
   },
   "devDependencies": {
