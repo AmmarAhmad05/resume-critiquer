@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import InteractiveBackground from '../components/InteractiveBackground';
+import InteractiveGraph from '../components/InteractiveGraph';
 
 export default function History() {
   const [analyses, setAnalyses] = useState([]);
@@ -224,101 +225,125 @@ export default function History() {
             <div className="lg:col-span-2">
               {selectedAnalysis ? (
                 <div className="space-y-6">
-                  {/* Overall Score */}
-                  <div className="card">
+                  {/* Overall Score - Modern Style */}
+                  <div className="card card-glow slide-in-up">
                     <div className="flex items-center justify-between mb-6">
-                      <div>
-                        <h3 className="text-xl font-bold dark:text-white">Analysis Details</h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          {new Date(selectedAnalysis.createdAt).toLocaleDateString('en-US', {
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                          })}
-                        </p>
+                      <div className="flex items-center gap-3">
+                        <div className="p-3 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl shadow-lg">
+                          <svg className="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                          </svg>
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                            Overall Grade
+                          </h3>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            {new Date(selectedAnalysis.createdAt).toLocaleDateString('en-US', {
+                              month: 'long',
+                              day: 'numeric',
+                              year: 'numeric',
+                              hour: '2-digit',
+                              minute: '2-digit'
+                            })}
+                          </p>
+                        </div>
                       </div>
-                      <div className="text-4xl font-bold text-blue-600 dark:text-blue-400">
-                        {selectedAnalysis.critique.overallScore}/10
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-2xl blur-xl opacity-50 animate-pulse"></div>
+                        <div className="relative text-6xl font-black score-glow bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                          {selectedAnalysis.critique.overallScore}/10
+                        </div>
                       </div>
                     </div>
-                    <p className="text-gray-700 dark:text-gray-300">{selectedAnalysis.critique.summary}</p>
+                    <div className="p-5 bg-gradient-to-r from-purple-50/50 to-indigo-50/50 dark:from-purple-900/20 dark:to-indigo-900/20 rounded-xl border border-purple-200/30 dark:border-purple-700/30">
+                      <p className="text-gray-700 dark:text-gray-300 text-lg leading-relaxed">{selectedAnalysis.critique.summary}</p>
+                    </div>
                   </div>
 
-                  {/* Strengths & Weaknesses */}
+                  {/* Strengths & Weaknesses - Modern Style */}
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div className="card">
-                      <h3 className="text-lg font-bold mb-3 flex items-center dark:text-white">
-                        <span className="text-green-600 dark:text-green-400 mr-2">✓</span>
-                        Strengths
-                      </h3>
-                      <ul className="space-y-2">
+                    <div className="card slide-in-left">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2.5 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl shadow-lg">
+                          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <h3 className="text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                          Keep These Strengths
+                        </h3>
+                      </div>
+                      <ul className="space-y-3">
                         {selectedAnalysis.critique.strengths.map((strength, idx) => (
-                          <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start">
-                            <span className="text-green-500 dark:text-green-400 mr-2 mt-1">•</span>
-                            {strength}
+                          <li key={idx} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-green-50/50 dark:hover:bg-green-900/20 transition-all">
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-green-100 dark:bg-green-900/50 flex items-center justify-center mt-0.5">
+                              <span className="text-green-600 dark:text-green-400 text-sm font-bold">{idx + 1}</span>
+                            </div>
+                            <span className="text-gray-700 dark:text-gray-300">{strength}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="card">
-                      <h3 className="text-lg font-bold mb-3 flex items-center dark:text-white">
-                        <span className="text-yellow-600 dark:text-yellow-400 mr-2">!</span>
-                        Areas for Improvement
-                      </h3>
-                      <ul className="space-y-2">
+                    <div className="card slide-in-right">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2.5 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl shadow-lg">
+                          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <h3 className="text-lg font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                          Areas to Improve
+                        </h3>
+                      </div>
+                      <ul className="space-y-3">
                         {selectedAnalysis.critique.weaknesses.map((weakness, idx) => (
-                          <li key={idx} className="text-gray-700 dark:text-gray-300 flex items-start">
-                            <span className="text-yellow-500 dark:text-yellow-400 mr-2 mt-1">•</span>
-                            {weakness}
+                          <li key={idx} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-amber-50/50 dark:hover:bg-amber-900/20 transition-all">
+                            <div className="flex-shrink-0 w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/50 flex items-center justify-center mt-0.5">
+                              <span className="text-amber-600 dark:text-amber-400 text-sm font-bold">{idx + 1}</span>
+                            </div>
+                            <span className="text-gray-700 dark:text-gray-300">{weakness}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
 
-                  {/* Detailed Feedback */}
-                  <div className="card">
-                    <h3 className="text-lg font-bold mb-3 dark:text-white">Detailed Feedback</h3>
-
-                    <div className="space-y-4">
-                      <div className="border-l-4 border-blue-600 dark:border-blue-400 pl-4">
-                        <h4 className="font-semibold mb-1 dark:text-white">Formatting & Structure</h4>
-                        <div className="flex items-center mb-2">
-                          <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">Score:</span>
-                          <span className="text-blue-600 dark:text-blue-400 font-bold">{selectedAnalysis.critique.formatting.score}/10</span>
-                        </div>
-                        <p className="text-gray-700 dark:text-gray-300">{selectedAnalysis.critique.formatting.feedback}</p>
+                  {/* Interactive Detailed Feedback Graphs */}
+                  <div className="card slide-in-up">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-3 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-xl shadow-lg">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
+                        </svg>
                       </div>
-
-                      <div className="border-l-4 border-green-600 dark:border-green-400 pl-4">
-                        <h4 className="font-semibold mb-1 dark:text-white">Content Quality</h4>
-                        <div className="flex items-center mb-2">
-                          <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">Score:</span>
-                          <span className="text-green-600 dark:text-green-400 font-bold">{selectedAnalysis.critique.content.score}/10</span>
-                        </div>
-                        <p className="text-gray-700 dark:text-gray-300">{selectedAnalysis.critique.content.feedback}</p>
-                      </div>
-
-                      <div className="border-l-4 border-purple-600 dark:border-purple-400 pl-4">
-                        <h4 className="font-semibold mb-1 dark:text-white">ATS Optimization</h4>
-                        <div className="flex items-center mb-2">
-                          <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">Score:</span>
-                          <span className="text-purple-600 dark:text-purple-400 font-bold">{selectedAnalysis.critique.atsScore}/10</span>
-                        </div>
-                      </div>
+                      <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                        Interactive Performance Analysis
+                      </h3>
                     </div>
+                    <p className="text-gray-600 dark:text-gray-400 mb-6">
+                      Hover over the bars to see detailed feedback for each metric
+                    </p>
+                    <InteractiveGraph critique={selectedAnalysis.critique} />
                   </div>
 
-                  {/* Suggestions */}
-                  <div className="card">
-                    <h3 className="text-lg font-bold mb-3 dark:text-white">Actionable Suggestions</h3>
+                  {/* Suggestions - Modern Style */}
+                  <div className="card slide-in-up">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl shadow-lg">
+                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                        </svg>
+                      </div>
+                      <h3 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                        Actionable Suggestions
+                      </h3>
+                    </div>
                     <ol className="space-y-3">
                       {selectedAnalysis.critique.suggestions.map((suggestion, idx) => (
-                        <li key={idx} className="flex items-start">
-                          <span className="bg-blue-600 dark:bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0 mt-0.5">
+                        <li key={idx} className="flex items-start group hover:bg-blue-50/50 dark:hover:bg-blue-900/20 p-3 rounded-xl transition-all">
+                          <span className="bg-gradient-to-br from-blue-600 to-cyan-600 text-white rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold mr-3 flex-shrink-0 mt-0.5 shadow-lg group-hover:scale-110 transition-transform">
                             {idx + 1}
                           </span>
                           <span className="text-gray-700 dark:text-gray-300">{suggestion}</span>

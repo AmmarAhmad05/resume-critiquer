@@ -7,25 +7,28 @@ export default function InteractiveGraph({ critique }) {
     {
       name: 'Formatting',
       score: critique.formatting.score,
-      color: 'from-indigo-500 to-purple-500',
-      lightBg: 'bg-indigo-50',
-      darkBg: 'dark:bg-indigo-900/20',
+      gradientClass: 'bg-gradient-to-t from-indigo-500 to-purple-500',
+      textGradientClass: 'bg-gradient-to-r from-indigo-600 to-purple-600',
+      bgClass: 'bg-indigo-50 dark:bg-indigo-900/20',
+      borderClass: 'border-indigo-300 dark:border-indigo-700',
       feedback: critique.formatting.feedback
     },
     {
       name: 'Content',
       score: critique.content.score,
-      color: 'from-green-500 to-emerald-500',
-      lightBg: 'bg-green-50',
-      darkBg: 'dark:bg-green-900/20',
+      gradientClass: 'bg-gradient-to-t from-green-500 to-emerald-500',
+      textGradientClass: 'bg-gradient-to-r from-green-600 to-emerald-600',
+      bgClass: 'bg-green-50 dark:bg-green-900/20',
+      borderClass: 'border-green-300 dark:border-green-700',
       feedback: critique.content.feedback
     },
     {
       name: 'ATS Score',
       score: critique.atsScore,
-      color: 'from-purple-500 to-pink-500',
-      lightBg: 'bg-purple-50',
-      darkBg: 'dark:bg-purple-900/20',
+      gradientClass: 'bg-gradient-to-t from-purple-500 to-pink-500',
+      textGradientClass: 'bg-gradient-to-r from-purple-600 to-pink-600',
+      bgClass: 'bg-purple-50 dark:bg-purple-900/20',
+      borderClass: 'border-purple-300 dark:border-purple-700',
       feedback: 'Applicant Tracking System compatibility score'
     }
   ];
@@ -35,25 +38,25 @@ export default function InteractiveGraph({ critique }) {
   return (
     <div className="space-y-6">
       {/* Interactive Bar Chart */}
-      <div className="relative p-8 rounded-2xl bg-gradient-to-br from-purple-50/50 via-indigo-50/50 to-pink-50/50 dark:from-purple-900/10 dark:via-indigo-900/10 dark:to-pink-900/10 border border-purple-200/30 dark:border-purple-700/30">
-        <div className="grid grid-cols-3 gap-6 items-end h-64">
+      <div className="relative p-8 pt-12 rounded-2xl bg-gradient-to-br from-purple-50/50 via-indigo-50/50 to-pink-50/50 dark:from-purple-900/10 dark:via-indigo-900/10 dark:to-pink-900/10 border border-purple-200/30 dark:border-purple-700/30">
+        <div className="grid grid-cols-3 gap-8 items-end h-72">
           {metrics.map((metric, idx) => (
             <div
               key={idx}
-              className="relative flex flex-col items-center cursor-pointer group"
+              className="relative flex flex-col items-center cursor-pointer group h-full justify-end"
               onMouseEnter={() => setHoveredBar(idx)}
               onMouseLeave={() => setHoveredBar(null)}
             >
               {/* Score Label */}
-              <div className={`absolute -top-8 transition-all duration-300 ${hoveredBar === idx ? 'scale-125 -translate-y-2' : 'scale-100'}`}>
-                <div className={`px-3 py-1.5 rounded-lg bg-gradient-to-r ${metric.color} text-white font-bold text-sm shadow-lg`}>
+              <div className={`absolute -top-2 transition-all duration-300 ${hoveredBar === idx ? 'scale-125 -translate-y-2' : 'scale-100'}`}>
+                <div className={`px-3 py-1.5 rounded-lg ${metric.gradientClass} text-white font-bold text-sm shadow-lg`}>
                   {metric.score}/10
                 </div>
               </div>
 
               {/* Animated Bar */}
               <div
-                className={`relative w-full rounded-t-xl bg-gradient-to-t ${metric.color} transition-all duration-700 ease-out group-hover:brightness-110`}
+                className={`relative w-full rounded-t-xl ${metric.gradientClass} transition-all duration-700 ease-out group-hover:brightness-110 min-h-[20px]`}
                 style={{
                   height: `${(metric.score / maxScore) * 100}%`,
                   boxShadow: hoveredBar === idx ? '0 0 40px rgba(168, 85, 247, 0.6)' : '0 0 20px rgba(168, 85, 247, 0.3)',
@@ -63,16 +66,11 @@ export default function InteractiveGraph({ critique }) {
               >
                 {/* Shimmer Effect */}
                 <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/30 to-transparent animate-pulse rounded-t-xl"></div>
-
-                {/* Glow Effect on Hover */}
-                {hoveredBar === idx && (
-                  <div className={`absolute -inset-1 bg-gradient-to-t ${metric.color} blur-xl opacity-50 -z-10 rounded-t-xl`}></div>
-                )}
               </div>
 
               {/* Label */}
               <div className={`mt-4 text-center transition-all duration-300 ${hoveredBar === idx ? 'scale-110' : 'scale-100'}`}>
-                <p className={`font-bold ${hoveredBar === idx ? 'text-transparent bg-gradient-to-r ' + metric.color + ' bg-clip-text' : 'text-gray-700 dark:text-gray-300'}`}>
+                <p className={`font-bold transition-all ${hoveredBar === idx ? 'text-transparent ' + metric.textGradientClass + ' bg-clip-text' : 'text-gray-700 dark:text-gray-300'}`}>
                   {metric.name}
                 </p>
               </div>
@@ -84,7 +82,7 @@ export default function InteractiveGraph({ critique }) {
         <div className="absolute bottom-[60px] left-8 right-8 h-0.5 bg-gray-300 dark:bg-gray-700"></div>
 
         {/* Y-axis labels */}
-        <div className="absolute left-2 bottom-[60px] top-8 flex flex-col justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
+        <div className="absolute left-2 bottom-[60px] top-12 flex flex-col justify-between text-xs text-gray-500 dark:text-gray-400 font-medium">
           <span>10</span>
           <span>7.5</span>
           <span>5</span>
@@ -93,22 +91,24 @@ export default function InteractiveGraph({ critique }) {
         </div>
       </div>
 
-      {/* Feedback Detail on Hover */}
-      {hoveredBar !== null && (
-        <div className={`p-5 rounded-xl ${metrics[hoveredBar].lightBg} ${metrics[hoveredBar].darkBg} border-2 border-${hoveredBar === 0 ? 'indigo' : hoveredBar === 1 ? 'green' : 'purple'}-300/50 dark:border-${hoveredBar === 0 ? 'indigo' : hoveredBar === 1 ? 'green' : 'purple'}-700/50 slide-in-up`}>
-          <div className="flex items-center gap-3 mb-2">
-            <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${metrics[hoveredBar].color}`}></div>
-            <h4 className="font-bold text-gray-900 dark:text-white">{metrics[hoveredBar].name} - {metrics[hoveredBar].score}/10</h4>
+      {/* Feedback Detail on Hover - Fixed height to prevent jumping */}
+      <div className="min-h-[120px]">
+        {hoveredBar !== null && (
+          <div className={`p-5 rounded-xl ${metrics[hoveredBar].bgClass} border-2 ${metrics[hoveredBar].borderClass} animate-fade-in`}>
+            <div className="flex items-center gap-3 mb-2">
+              <div className={`w-3 h-3 rounded-full ${metrics[hoveredBar].gradientClass}`}></div>
+              <h4 className="font-bold text-gray-900 dark:text-white">{metrics[hoveredBar].name} - {metrics[hoveredBar].score}/10</h4>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
+              {metrics[hoveredBar].feedback}
+            </p>
           </div>
-          <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">
-            {metrics[hoveredBar].feedback}
-          </p>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Radar Chart Alternative View */}
-      <div className="relative aspect-square max-w-md mx-auto">
-        <svg viewBox="0 0 200 200" className="w-full h-full">
+      <div className="relative w-full max-w-md mx-auto" style={{ height: '400px' }}>
+        <svg viewBox="0 0 200 200" className="w-full h-full" preserveAspectRatio="xMidYMid meet">
           {/* Background Grid */}
           {[2, 4, 6, 8, 10].map((level, idx) => (
             <polygon
