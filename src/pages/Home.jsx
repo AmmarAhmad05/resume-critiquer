@@ -1,10 +1,112 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import InteractiveBackground from '../components/InteractiveBackground';
+import { useState, useEffect } from 'react';
 
 export default function Home() {
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
+  const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [stats, setStats] = useState({
+    resumes: 0,
+    users: 0,
+    avgScore: 0
+  });
+
+  // Animated counter effect
+  useEffect(() => {
+    const duration = 2000;
+    const steps = 60;
+    const interval = duration / steps;
+
+    const targets = { resumes: 15420, users: 8350, avgScore: 87 };
+    let current = 0;
+
+    const timer = setInterval(() => {
+      current++;
+      const progress = current / steps;
+
+      setStats({
+        resumes: Math.floor(targets.resumes * progress),
+        users: Math.floor(targets.users * progress),
+        avgScore: Math.floor(targets.avgScore * progress)
+      });
+
+      if (current >= steps) clearInterval(timer);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  const toggleFaq = (index) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  const sampleResumes = [
+    {
+      title: "Software Engineer",
+      description: "Modern tech resume with clean formatting and strong keywords",
+      score: 92,
+      tags: ["ATS-Optimized", "Clean Layout", "Tech Keywords"],
+      color: "from-blue-500 to-cyan-500"
+    },
+    {
+      title: "Marketing Manager",
+      description: "Creative resume showcasing achievements and metrics",
+      score: 88,
+      tags: ["Results-Driven", "Creative", "Metrics-Focused"],
+      color: "from-purple-500 to-pink-500"
+    },
+    {
+      title: "Product Designer",
+      description: "Visual resume highlighting design projects and skills",
+      score: 90,
+      tags: ["Visual Appeal", "Portfolio Links", "Skills Matrix"],
+      color: "from-amber-500 to-orange-500"
+    },
+    {
+      title: "Data Scientist",
+      description: "Technical resume with project highlights and certifications",
+      score: 94,
+      tags: ["Technical", "Certifications", "Projects"],
+      color: "from-green-500 to-emerald-500"
+    }
+  ];
+
+  const faqs = [
+    {
+      question: "How does the AI analyze my resume?",
+      answer: "Our AI uses advanced natural language processing to evaluate your resume across multiple dimensions including formatting, content quality, keyword optimization, and ATS compatibility. It analyzes structure, quantifiable achievements, industry-specific keywords, and overall presentation to provide comprehensive feedback."
+    },
+    {
+      question: "Is my resume data secure and private?",
+      answer: "Absolutely! We take data security seriously. Your resume is encrypted during transmission and storage. We never share your personal information with third parties, and you can delete your data at any time. Our AI processes your resume in a secure environment and doesn't retain copies after analysis."
+    },
+    {
+      question: "What file formats are supported?",
+      answer: "We currently support PDF files, which are the industry standard for resume submissions. You can also paste your resume text directly into our platform. We recommend using PDF format as it preserves your formatting and is most compatible with ATS systems."
+    },
+    {
+      question: "How is the resume score calculated?",
+      answer: "Your resume score is calculated based on multiple factors: formatting and readability (25%), content quality and impact (30%), ATS optimization and keywords (25%), and overall structure and organization (20%). Each category is analyzed in detail to give you a comprehensive score out of 100."
+    },
+    {
+      question: "Can I analyze multiple versions of my resume?",
+      answer: "Yes! We encourage you to analyze multiple versions. This helps you compare different approaches and see which changes improve your score. You can save and compare different versions to track your improvements over time."
+    },
+    {
+      question: "What makes a resume ATS-friendly?",
+      answer: "ATS-friendly resumes use standard formatting, clear section headers, common fonts, and relevant keywords. Avoid tables, images, headers/footers, and unusual formatting. Use standard section titles like 'Work Experience' and 'Education'. Our AI specifically checks for these elements and provides guidance."
+    },
+    {
+      question: "How long does the analysis take?",
+      answer: "Most resume analyses are completed within 10-30 seconds. The AI works quickly to provide you with instant feedback so you can iterate and improve your resume efficiently."
+    },
+    {
+      question: "Do you offer resume writing services?",
+      answer: "Currently, we focus on AI-powered analysis and feedback. However, our detailed suggestions and examples are designed to guide you in improving your resume yourself. We provide actionable recommendations that you can implement immediately."
+    }
+  ];
 
   return (
     <div className="min-h-screen relative gradient-bg overflow-hidden">
@@ -154,6 +256,47 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Stats Section */}
+        <div className="mt-32 slide-in-up">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="stat-card space-y-2 shimmer">
+              <div className="text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                {stats.resumes.toLocaleString()}+
+              </div>
+              <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Resumes Analyzed
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Helping job seekers worldwide
+              </p>
+            </div>
+
+            <div className="stat-card space-y-2 shimmer">
+              <div className="text-5xl font-black bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                {stats.users.toLocaleString()}+
+              </div>
+              <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Happy Users
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Trusted by professionals
+              </p>
+            </div>
+
+            <div className="stat-card space-y-2 shimmer">
+              <div className="text-5xl font-black bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+                {stats.avgScore}%
+              </div>
+              <div className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+                Average Score Improvement
+              </div>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                After implementing our tips
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* How It Works Section */}
         <div className="mt-32 space-y-12 slide-in-up">
           <h2 className="text-4xl md:text-5xl font-black text-center bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
@@ -162,43 +305,151 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* Step 1 */}
-            <div className="card text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full text-white text-2xl font-bold shadow-lg">
-                1
+            <div className="card text-center space-y-4 perspective-card">
+              <div className="perspective-card-inner">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float">
+                  1
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4">
+                  Upload Your Resume
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Upload a PDF or paste your resume text directly into the platform
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                Upload Your Resume
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Upload a PDF or paste your resume text directly into the platform
-              </p>
             </div>
 
             {/* Step 2 */}
-            <div className="card text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full text-white text-2xl font-bold shadow-lg">
-                2
+            <div className="card text-center space-y-4 perspective-card">
+              <div className="perspective-card-inner">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float" style={{ animationDelay: '0.5s' }}>
+                  2
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4">
+                  AI Analysis
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Our AI analyzes formatting, content, keywords, and ATS compatibility
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                AI Analysis
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Our AI analyzes formatting, content, keywords, and ATS compatibility
-              </p>
             </div>
 
             {/* Step 3 */}
-            <div className="card text-center space-y-4">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full text-white text-2xl font-bold shadow-lg">
-                3
+            <div className="card text-center space-y-4 perspective-card">
+              <div className="perspective-card-inner">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float" style={{ animationDelay: '1s' }}>
+                  3
+                </div>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4">
+                  Get Feedback
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Review your scores, strengths, weaknesses, and actionable suggestions
+                </p>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                Get Feedback
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Review your scores, strengths, weaknesses, and actionable suggestions
-              </p>
             </div>
+          </div>
+        </div>
+
+        {/* Sample Resumes Section */}
+        <div className="mt-32 space-y-12 slide-in-up">
+          <div className="text-center space-y-4">
+            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Sample Resume Scores
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              See how different resume styles perform and get inspired for your own
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {sampleResumes.map((resume, index) => (
+              <div key={index} className="resume-card group">
+                <div className="space-y-4">
+                  {/* Score Badge */}
+                  <div className="flex justify-between items-start">
+                    <div className={`p-3 bg-gradient-to-br ${resume.color} rounded-xl shadow-lg`}>
+                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-3xl font-black bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+                        {resume.score}
+                      </div>
+                      <div className="text-xs font-semibold text-gray-500 dark:text-gray-400">
+                        Score
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Title and Description */}
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200">
+                      {resume.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      {resume.description}
+                    </p>
+                  </div>
+
+                  {/* Tags */}
+                  <div className="flex flex-wrap gap-2">
+                    {resume.tags.map((tag, tagIndex) => (
+                      <span
+                        key={tagIndex}
+                        className="px-3 py-1 text-xs font-semibold rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* View Example Button */}
+                  <button className="w-full mt-4 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/20 dark:to-pink-900/20 text-purple-700 dark:text-purple-300 font-semibold hover:from-purple-200 hover:to-pink-200 dark:hover:from-purple-800/30 dark:hover:to-pink-800/30 transition-all duration-300 group-hover:scale-105">
+                    View Example
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* FAQs Section */}
+        <div className="mt-32 space-y-12 slide-in-up">
+          <div className="text-center space-y-4">
+            <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+              Everything you need to know about our AI-powered resume analysis
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto space-y-4">
+            {faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="faq-item"
+                onClick={() => toggleFaq(index)}
+              >
+                <div className="flex justify-between items-center gap-4">
+                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 flex-1">
+                    {faq.question}
+                  </h3>
+                  <div className={`flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center transition-transform duration-300 ${openFaqIndex === index ? 'rotate-180' : ''}`}>
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+                <div className={`faq-answer ${openFaqIndex === index ? 'open' : ''}`}>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
