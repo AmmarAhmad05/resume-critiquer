@@ -1,17 +1,54 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import InteractiveBackground from '../components/InteractiveBackground';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function Home() {
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const [stats, setStats] = useState({
     resumes: 0,
     users: 0,
     avgScore: 0
   });
+
+  // Refs for scroll animations
+  const sectionsRef = useRef([]);
+
+  // Scroll detection for sticky header transparency
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Intersection Observer for fade-in animations
+  useEffect(() => {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    sectionsRef.current.forEach(section => {
+      if (section) observer.observe(section);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   // Animated counter effect
   useEffect(() => {
@@ -40,6 +77,21 @@ export default function Home() {
 
   const toggleFaq = (index) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offset = 100;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
   };
 
   const sampleResumes = [
@@ -120,20 +172,43 @@ export default function Home() {
         <div className="absolute top-1/3 left-1/2 w-72 h-72 bg-pink-300/10 dark:bg-pink-500/5 rounded-full blur-3xl floating" style={{ animationDelay: '6s' }}></div>
       </div>
 
-      {/* Navigation Header */}
-      <nav className="relative z-10 bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl border-b border-purple-100/50 dark:border-purple-900/50 shadow-lg">
+      {/* Sticky Navigation Header with Transparency */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'bg-white/60 dark:bg-gray-900/60 backdrop-blur-2xl shadow-xl'
+          : 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl shadow-lg'
+      } border-b border-purple-100/50 dark:border-purple-900/50`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg shadow-purple-500/30">
-                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+            <div className="flex items-center gap-8">
+              <div className="flex items-center gap-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+                <div className="p-2.5 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg shadow-purple-500/30 transform hover:scale-110 transition-transform duration-300">
+                  <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                  Resume Critiquer
+                </h1>
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Resume Critiquer
-              </h1>
+
+              {/* Section Navigation */}
+              <div className={`hidden md:flex items-center gap-6 transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}>
+                <button onClick={() => scrollToSection('features')} className="text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                  Features
+                </button>
+                <button onClick={() => scrollToSection('how-it-works')} className="text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                  How It Works
+                </button>
+                <button onClick={() => scrollToSection('samples')} className="text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                  Samples
+                </button>
+                <button onClick={() => scrollToSection('faq')} className="text-sm font-semibold text-gray-700 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                  FAQ
+                </button>
+              </div>
             </div>
+
             <div className="flex items-center gap-4">
               <button
                 onClick={toggleTheme}
@@ -162,7 +237,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative w-full py-32 px-6">
+      <section className="relative w-full pt-40 pb-20 px-6">
         <div className="max-w-5xl mx-auto text-center space-y-8">
           <h1 className="text-6xl md:text-8xl font-black gradient-text-animated leading-tight">
             Perfect Your Resume
@@ -187,7 +262,11 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="w-full py-24 px-6 bg-white/50 dark:bg-gray-900/50">
+      <section
+        id="features"
+        ref={(el) => (sectionsRef.current[0] = el)}
+        className="w-full py-24 px-6 bg-white/50 dark:bg-gray-900/50 opacity-0 transition-all duration-1000 ease-out transform translate-y-10"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-16">
             <div className="text-center space-y-4">
@@ -236,7 +315,10 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="w-full py-32 px-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-indigo-900/20">
+      <section
+        ref={(el) => (sectionsRef.current[1] = el)}
+        className="w-full py-32 px-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-indigo-900/20 opacity-0 transition-all duration-1000 ease-out transform translate-y-10"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-16 text-center">
             <div className="space-y-4">
@@ -279,7 +361,11 @@ export default function Home() {
       </section>
 
       {/* How It Works Section */}
-      <section className="w-full py-32 px-6">
+      <section
+        id="how-it-works"
+        ref={(el) => (sectionsRef.current[2] = el)}
+        className="w-full py-32 px-6 opacity-0 transition-all duration-1000 ease-out transform translate-y-10"
+      >
         <div className="max-w-6xl mx-auto space-y-20">
           <h2 className="text-5xl md:text-6xl font-black text-center gradient-text-animated">
             How It Works
@@ -326,7 +412,11 @@ export default function Home() {
       </section>
 
       {/* Sample Resumes Section */}
-      <section className="w-full py-32 px-6 bg-white/50 dark:bg-gray-900/50">
+      <section
+        id="samples"
+        ref={(el) => (sectionsRef.current[3] = el)}
+        className="w-full py-32 px-6 bg-white/50 dark:bg-gray-900/50 opacity-0 transition-all duration-1000 ease-out transform translate-y-10"
+      >
         <div className="max-w-6xl mx-auto space-y-20">
           <div className="text-center space-y-6">
             <h2 className="text-5xl md:text-6xl font-black gradient-text-animated">
@@ -384,7 +474,11 @@ export default function Home() {
       </section>
 
       {/* FAQs Section */}
-      <section className="w-full py-32 px-6">
+      <section
+        id="faq"
+        ref={(el) => (sectionsRef.current[4] = el)}
+        className="w-full py-32 px-6 opacity-0 transition-all duration-1000 ease-out transform translate-y-10"
+      >
         <div className="max-w-4xl mx-auto space-y-16">
           <div className="text-center space-y-6">
             <h2 className="text-5xl md:text-6xl font-black gradient-text-animated">
@@ -424,7 +518,10 @@ export default function Home() {
       </section>
 
       {/* Final CTA */}
-      <section className="w-full py-40 px-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-indigo-900/20">
+      <section
+        ref={(el) => (sectionsRef.current[5] = el)}
+        className="w-full py-40 px-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-indigo-900/20 opacity-0 transition-all duration-1000 ease-out transform translate-y-10"
+      >
         <div className="max-w-4xl mx-auto text-center space-y-10">
           <h2 className="text-5xl md:text-7xl font-black gradient-text-animated">
             Ready to Land Your Dream Job?
@@ -448,16 +545,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="w-full py-12 px-6 border-t border-gray-200 dark:border-gray-800">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center text-gray-500 dark:text-gray-500">
-            <p className="text-base">
-              © 2024 Resume Critiquer. AI-powered resume analysis and feedback.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
