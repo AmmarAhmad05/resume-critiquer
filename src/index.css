@@ -216,3 +216,326 @@
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-purple-500 dark:bg-purple-500;
 }
+
+/* Unique UI Elements */
+.resume-card {
+  @apply card cursor-pointer overflow-hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.resume-card:hover {
+  @apply shadow-2xl;
+  transform: translateY(-12px) rotateX(5deg) scale(1.02);
+  box-shadow: 0 20px 60px rgba(168, 85, 247, 0.3);
+}
+
+.resume-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.resume-card:hover::before {
+  left: 100%;
+}
+
+.faq-item {
+  @apply card mb-4 cursor-pointer overflow-hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  @apply border-purple-300 dark:border-purple-500;
+  transform: translateX(8px);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+  opacity: 0;
+}
+
+.faq-answer.open {
+  max-height: 500px;
+  opacity: 1;
+  padding-top: 1rem;
+}
+
+.stat-card {
+  @apply card text-center;
+  background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 100%);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    rgba(168, 85, 247, 0.1) 90deg,
+    transparent 180deg,
+    rgba(168, 85, 247, 0.1) 270deg,
+    transparent 360deg
+  );
+  animation: rotate-gradient 4s linear infinite;
+}
+
+.stat-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.dark .stat-card {
+  background: linear-gradient(135deg, rgba(31,41,55,0.9) 0%, rgba(31,41,55,0.7) 100%);
+}
+
+.gradient-border {
+  position: relative;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #667eea, #764ba2, #f093fb) border-box;
+  border: 2px solid transparent;
+  border-radius: 1rem;
+}
+
+.dark .gradient-border {
+  background: linear-gradient(rgb(31, 41, 55), rgb(31, 41, 55)) padding-box,
+              linear-gradient(135deg, #667eea, #764ba2, #f093fb) border-box;
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+.icon-float {
+  animation: icon-float 3s ease-in-out infinite;
+}
+
+.perspective-card {
+  perspective: 1000px;
+}
+
+.perspective-card-inner {
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.perspective-card:hover .perspective-card-inner {
+  transform: rotateY(5deg) rotateX(5deg);
+}
+
+@keyframes rotate-gradient {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+@keyframes icon-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Parallax and varied layout styles */
+.parallax-slow {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.parallax-medium {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.parallax-fast {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.zigzag-layout {
+  display: grid;
+  gap: 4rem;
+}
+
+.resume-card-left {
+  @apply resume-card;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.resume-card-right {
+  @apply resume-card;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .resume-card-left,
+  .resume-card-right {
+    grid-template-columns: 1fr;
+  }
+}
+
+.floating-element {
+  animation: gentle-float 6s ease-in-out infinite;
+}
+
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px);
+  }
+  25% {
+    transform: translateY(-15px) translateX(5px);
+  }
+  50% {
+    transform: translateY(-5px) translateX(-5px);
+  }
+  75% {
+    transform: translateY(-20px) translateX(3px);
+  }
+}
+
+.stagger-1 {
+  animation-delay: 0s;
+}
+
+.stagger-2 {
+  animation-delay: 0.2s;
+}
+
+.stagger-3 {
+  animation-delay: 0.4s;
+}
+
+.stagger-4 {
+  animation-delay: 0.6s;
+}
+
+.blob-bg {
+  position: absolute;
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  animation: blob-morph 8s ease-in-out infinite;
+  opacity: 0.7;
+  filter: blur(40px);
+}
+
+@keyframes blob-morph {
+  0%, 100% {
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  33% {
+    border-radius: 70% 30% 50% 50% / 60% 40% 60% 40%;
+    transform: rotate(120deg) scale(1.1);
+  }
+  66% {
+    border-radius: 50% 60% 30% 70% / 50% 60% 40% 50%;
+    transform: rotate(240deg) scale(0.9);
+  }
+}
+
+.gradient-text-animated {
+  background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #4facfe);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 4s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.stat-card-modern {
+  @apply relative overflow-hidden;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 2rem;
+  padding: 2rem;
+  border: 1px solid rgba(168, 85, 247, 0.2);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stat-card-modern:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(168, 85, 247, 0.2);
+}
+
+.dark .stat-card-modern {
+  background: rgba(31, 41, 55, 0.7);
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.glassy-panel {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
