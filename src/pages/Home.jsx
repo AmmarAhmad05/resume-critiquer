@@ -7,22 +7,11 @@ export default function Home() {
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
   const [openFaqIndex, setOpenFaqIndex] = useState(null);
-  const [scrollY, setScrollY] = useState(0);
   const [stats, setStats] = useState({
     resumes: 0,
     users: 0,
     avgScore: 0
   });
-
-  // Parallax scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Animated counter effect
   useEffect(() => {
@@ -173,388 +162,258 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="text-center space-y-8">
-          {/* Main Heading */}
-          <div
-            className="space-y-4 scale-in"
-            style={{ transform: `translateY(${scrollY * -0.15}px)` }}
-          >
-            <h1 className="text-6xl md:text-7xl font-black gradient-text-animated leading-tight">
-              Perfect Your Resume
-            </h1>
-            <p className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200">
-              with AI-Powered Analysis
-            </p>
-          </div>
-
-          {/* Subheading */}
-          <p
-            className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed"
-            style={{ transform: `translateY(${scrollY * -0.1}px)` }}
-          >
-            Get instant, professional feedback on your resume with detailed scoring,
-            actionable suggestions, and ATS optimization tips.
+      <section className="relative w-full py-32 px-6">
+        <div className="max-w-5xl mx-auto text-center space-y-8">
+          <h1 className="text-6xl md:text-8xl font-black gradient-text-animated leading-tight">
+            Perfect Your Resume
+          </h1>
+          <p className="text-2xl md:text-3xl font-medium text-gray-700 dark:text-gray-300 max-w-3xl mx-auto">
+            Get instant, professional feedback with AI-powered analysis
           </p>
-
-          {/* CTA Buttons */}
-          <div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
-            style={{ transform: `translateY(${scrollY * -0.05}px)` }}
-          >
+          <div className="pt-8">
             <button
               onClick={() => navigate('/signup')}
-              className="btn-primary text-lg px-8 py-4 shadow-2xl shadow-purple-500/30 hover:shadow-purple-500/50 group"
+              className="btn-primary text-xl px-12 py-5 shadow-lg hover:shadow-xl group"
             >
               <span className="flex items-center gap-3">
-                Get Started for Free
+                Get Started
                 <svg className="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
             </button>
-            <button
-              onClick={() => navigate('/login')}
-              className="px-8 py-4 rounded-xl bg-white/70 dark:bg-gray-800/70 backdrop-blur-sm border-2 border-purple-200/50 dark:border-purple-700/50 text-gray-700 dark:text-gray-200 font-bold hover:bg-white dark:hover:bg-gray-700 hover:border-purple-300 dark:hover:border-purple-600 transition-all duration-300 hover:scale-105 hover:shadow-lg text-lg"
-            >
-              I Have an Account
-            </button>
           </div>
         </div>
+      </section>
 
-        {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mt-24">
-          {/* Feature 1 */}
-          <div
-            className="card group hover:scale-105 transition-all duration-300"
-            style={{ transform: `translateY(${scrollY * 0.03}px)` }}
-          >
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl shadow-lg group-hover:shadow-purple-500/50 transition-shadow floating-element stagger-1">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {/* Features Section */}
+      <section className="w-full py-24 px-6 bg-white/50 dark:bg-gray-900/50">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-16">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center">
+                <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Instant Analysis
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
                 Upload your resume and receive comprehensive AI-powered feedback in seconds
               </p>
             </div>
-          </div>
 
-          {/* Feature 2 */}
-          <div
-            className="card group hover:scale-105 transition-all duration-300"
-            style={{ transform: `translateY(${scrollY * 0.05}px)` }}
-          >
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl shadow-lg group-hover:shadow-pink-500/50 transition-shadow floating-element stagger-2">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center">
+                <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Detailed Scoring
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Get scored on formatting, content quality, and ATS optimization with visual breakdowns
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                Get scored on formatting, content quality, and ATS optimization
               </p>
             </div>
-          </div>
 
-          {/* Feature 3 */}
-          <div
-            className="card group hover:scale-105 transition-all duration-300"
-            style={{ transform: `translateY(${scrollY * 0.07}px)` }}
-          >
-            <div className="flex flex-col items-center text-center space-y-4">
-              <div className="p-4 bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl shadow-lg group-hover:shadow-orange-500/50 transition-shadow floating-element stagger-3">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl flex items-center justify-center">
+                <svg className="w-9 h-9 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 Actionable Tips
               </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Receive specific, implementable suggestions to improve your resume immediately
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                Receive specific, implementable suggestions to improve immediately
               </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Stats Section */}
-        <div className="mt-32 relative">
-          <div
-            className="parallax-slow"
-            style={{ transform: `translateY(${scrollY * 0.05}px)` }}
-          >
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="stat-card-modern space-y-3 floating-element stagger-1">
-                <div className="relative">
-                  <div className="blob-bg w-32 h-32 bg-indigo-400 top-0 right-0 -z-10"></div>
-                  <div className="text-6xl font-black gradient-text-animated">
-                    {stats.resumes.toLocaleString()}+
-                  </div>
-                </div>
-                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                  Resumes Analyzed
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Helping job seekers worldwide
-                </p>
+      {/* Stats Section */}
+      <section className="w-full py-32 px-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-indigo-900/20">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-16 text-center">
+            <div className="space-y-4">
+              <div className="text-7xl font-black gradient-text-animated">
+                {stats.resumes.toLocaleString()}+
               </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Resumes Analyzed
+              </div>
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                Helping job seekers worldwide
+              </p>
+            </div>
 
-              <div className="stat-card-modern space-y-3 floating-element stagger-2">
-                <div className="relative">
-                  <div className="blob-bg w-32 h-32 bg-purple-400 top-0 right-0 -z-10"></div>
-                  <div className="text-6xl font-black gradient-text-animated">
-                    {stats.users.toLocaleString()}+
-                  </div>
-                </div>
-                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                  Happy Users
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Trusted by professionals
-                </p>
+            <div className="space-y-4">
+              <div className="text-7xl font-black gradient-text-animated">
+                {stats.users.toLocaleString()}+
               </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Happy Users
+              </div>
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                Trusted by professionals
+              </p>
+            </div>
 
-              <div className="stat-card-modern space-y-3 floating-element stagger-3">
-                <div className="relative">
-                  <div className="blob-bg w-32 h-32 bg-pink-400 top-0 right-0 -z-10"></div>
-                  <div className="text-6xl font-black gradient-text-animated">
-                    {stats.avgScore}%
-                  </div>
-                </div>
-                <div className="text-xl font-bold text-gray-800 dark:text-gray-200">
-                  Average Improvement
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  After implementing our tips
-                </p>
+            <div className="space-y-4">
+              <div className="text-7xl font-black gradient-text-animated">
+                {stats.avgScore}%
               </div>
+              <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Average Improvement
+              </div>
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                After implementing our tips
+              </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* How It Works Section */}
-        <div className="mt-32 space-y-12 relative">
-          <div
-            className="parallax-medium"
-            style={{ transform: `translateY(${scrollY * 0.08}px)` }}
-          >
-            <h2 className="text-4xl md:text-5xl font-black text-center gradient-text-animated">
-              How It Works
-            </h2>
-          </div>
+      {/* How It Works Section */}
+      <section className="w-full py-32 px-6">
+        <div className="max-w-6xl mx-auto space-y-20">
+          <h2 className="text-5xl md:text-6xl font-black text-center gradient-text-animated">
+            How It Works
+          </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Step 1 */}
-            <div
-              className="card text-center space-y-4 perspective-card"
-              style={{ transform: `translateY(${scrollY * 0.02}px)` }}
-            >
-              <div className="perspective-card-inner">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float">
-                  1
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4">
-                  Upload Your Resume
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Upload a PDF or paste your resume text directly into the platform
-                </p>
+          <div className="grid md:grid-cols-3 gap-20">
+            <div className="text-center space-y-6">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white text-3xl font-black">
+                1
               </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Upload Your Resume
+              </h3>
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                Upload a PDF or paste your resume text directly into the platform
+              </p>
             </div>
 
-            {/* Step 2 */}
-            <div
-              className="card text-center space-y-4 perspective-card"
-              style={{ transform: `translateY(${scrollY * 0.04}px)` }}
-            >
-              <div className="perspective-card-inner">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float" style={{ animationDelay: '0.5s' }}>
-                  2
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4">
-                  AI Analysis
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Our AI analyzes formatting, content, keywords, and ATS compatibility
-                </p>
+            <div className="text-center space-y-6">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-3xl font-black">
+                2
               </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                AI Analysis
+              </h3>
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                Our AI analyzes formatting, content, keywords, and ATS compatibility
+              </p>
             </div>
 
-            {/* Step 3 */}
-            <div
-              className="card text-center space-y-4 perspective-card"
-              style={{ transform: `translateY(${scrollY * 0.06}px)` }}
-            >
-              <div className="perspective-card-inner">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-amber-500 to-orange-600 rounded-full text-white text-2xl font-bold shadow-lg icon-float" style={{ animationDelay: '1s' }}>
-                  3
-                </div>
-                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mt-4">
-                  Get Feedback
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  Review your scores, strengths, weaknesses, and actionable suggestions
-                </p>
+            <div className="text-center space-y-6">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-amber-500 to-orange-600 rounded-full flex items-center justify-center text-white text-3xl font-black">
+                3
               </div>
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                Get Feedback
+              </h3>
+              <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
+                Review your scores, strengths, weaknesses, and actionable suggestions
+              </p>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* Sample Resumes Section - Zigzag Layout */}
-        <div className="mt-32 space-y-16 relative">
-          <div
-            className="text-center space-y-4 parallax-slow"
-            style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-          >
-            <h2 className="text-4xl md:text-5xl font-black gradient-text-animated">
+      {/* Sample Resumes Section */}
+      <section className="w-full py-32 px-6 bg-white/50 dark:bg-gray-900/50">
+        <div className="max-w-6xl mx-auto space-y-20">
+          <div className="text-center space-y-6">
+            <h2 className="text-5xl md:text-6xl font-black gradient-text-animated">
               Sample Resume Scores
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              See how different resume styles perform and get inspired for your own
+            <p className="text-2xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              See how different resume styles perform
             </p>
           </div>
 
-          <div className="zigzag-layout">
+          <div className="space-y-24">
             {sampleResumes.map((resume, index) => {
               const isEven = index % 2 === 0;
               return (
                 <div
                   key={index}
-                  className={isEven ? 'resume-card-left' : 'resume-card-right'}
-                  style={{
-                    transform: `translateX(${isEven ? scrollY * 0.02 : -scrollY * 0.02}px)`,
-                    opacity: 1,
-                  }}
+                  className={`flex flex-col md:flex-row gap-12 items-center ${!isEven ? 'md:flex-row-reverse' : ''}`}
                 >
-                  {isEven ? (
-                    <>
-                      {/* Score Display */}
-                      <div className="flex flex-col items-center justify-center space-y-4 relative">
-                        <div className={`blob-bg w-48 h-48 bg-gradient-to-br ${resume.color} -z-10`}></div>
-                        <div className="text-center">
-                          <div className="text-7xl font-black text-white drop-shadow-2xl">
-                            {resume.score}
-                          </div>
-                          <div className="text-lg font-bold text-white/90 mt-2">
-                            Resume Score
-                          </div>
-                        </div>
+                  {/* Score Display */}
+                  <div className="flex-shrink-0 text-center">
+                    <div className={`w-48 h-48 rounded-3xl bg-gradient-to-br ${resume.color} flex flex-col items-center justify-center shadow-2xl`}>
+                      <div className="text-7xl font-black text-white">
+                        {resume.score}
                       </div>
-                      {/* Content */}
-                      <div className="space-y-4">
-                        <div className={`inline-flex p-4 bg-gradient-to-br ${resume.color} rounded-2xl shadow-xl`}>
-                          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                        <h3 className="text-3xl font-black text-gray-800 dark:text-gray-200">
-                          {resume.title}
-                        </h3>
-                        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                          {resume.description}
-                        </p>
-                        <div className="flex flex-wrap gap-3 pt-2">
-                          {resume.tags.map((tag, tagIndex) => (
-                            <span
-                              key={tagIndex}
-                              className={`px-4 py-2 text-sm font-bold rounded-full bg-gradient-to-r ${resume.color} text-white shadow-lg`}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
+                      <div className="text-lg font-bold text-white/90 mt-2">
+                        Score
                       </div>
-                    </>
-                  ) : (
-                    <>
-                      {/* Content */}
-                      <div className="space-y-4">
-                        <div className={`inline-flex p-4 bg-gradient-to-br ${resume.color} rounded-2xl shadow-xl`}>
-                          <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                          </svg>
-                        </div>
-                        <h3 className="text-3xl font-black text-gray-800 dark:text-gray-200">
-                          {resume.title}
-                        </h3>
-                        <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-                          {resume.description}
-                        </p>
-                        <div className="flex flex-wrap gap-3 pt-2">
-                          {resume.tags.map((tag, tagIndex) => (
-                            <span
-                              key={tagIndex}
-                              className={`px-4 py-2 text-sm font-bold rounded-full bg-gradient-to-r ${resume.color} text-white shadow-lg`}
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                      {/* Score Display */}
-                      <div className="flex flex-col items-center justify-center space-y-4 relative">
-                        <div className={`blob-bg w-48 h-48 bg-gradient-to-br ${resume.color} -z-10`}></div>
-                        <div className="text-center">
-                          <div className="text-7xl font-black text-white drop-shadow-2xl">
-                            {resume.score}
-                          </div>
-                          <div className="text-lg font-bold text-white/90 mt-2">
-                            Resume Score
-                          </div>
-                        </div>
-                      </div>
-                    </>
-                  )}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="flex-1 space-y-6">
+                    <h3 className="text-4xl font-black text-gray-900 dark:text-gray-100">
+                      {resume.title}
+                    </h3>
+                    <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
+                      {resume.description}
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                      {resume.tags.map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className="px-5 py-2 text-base font-semibold rounded-full bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               );
             })}
           </div>
         </div>
+      </section>
 
-        {/* FAQs Section */}
-        <div className="mt-32 space-y-12 relative">
-          <div
-            className="text-center space-y-4 parallax-fast"
-            style={{ transform: `translateY(${scrollY * 0.12}px)` }}
-          >
-            <h2 className="text-4xl md:text-5xl font-black gradient-text-animated">
+      {/* FAQs Section */}
+      <section className="w-full py-32 px-6">
+        <div className="max-w-4xl mx-auto space-y-16">
+          <div className="text-center space-y-6">
+            <h2 className="text-5xl md:text-6xl font-black gradient-text-animated">
               Frequently Asked Questions
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Everything you need to know about our AI-powered resume analysis
+            <p className="text-2xl text-gray-600 dark:text-gray-400">
+              Everything you need to know
             </p>
           </div>
 
-          <div className="max-w-5xl mx-auto faq-grid">
+          <div className="space-y-6">
             {faqs.map((faq, index) => (
               <div
                 key={index}
-                className="faq-item"
+                className="border-b border-gray-200 dark:border-gray-700 pb-6 cursor-pointer"
                 onClick={() => toggleFaq(index)}
-                style={{
-                  transform: `translateY(${scrollY * (0.01 + index * 0.005)}px)`,
-                }}
               >
-                <div className="flex justify-between items-center gap-4">
-                  <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 flex-1">
+                <div className="flex justify-between items-center gap-6">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 flex-1">
                     {faq.question}
                   </h3>
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center transition-transform duration-300 shadow-lg ${openFaqIndex === index ? 'rotate-180' : ''}`}>
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className={`flex-shrink-0 w-8 h-8 flex items-center justify-center transition-transform duration-300 ${openFaqIndex === index ? 'rotate-180' : ''}`}>
+                    <svg className="w-6 h-6 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
                   </div>
                 </div>
                 <div className={`faq-answer ${openFaqIndex === index ? 'open' : ''}`}>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+                  <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>
@@ -562,46 +421,38 @@ export default function Home() {
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Final CTA */}
-        <div className="mt-32 relative">
-          <div
-            className="card max-w-4xl mx-auto text-center space-y-8 card-glow relative overflow-hidden"
-            style={{ transform: `translateY(${scrollY * -0.02}px)` }}
-          >
-            <div className="blob-bg w-64 h-64 bg-purple-400 top-0 left-0 -z-10"></div>
-            <div className="blob-bg w-64 h-64 bg-indigo-400 bottom-0 right-0 -z-10"></div>
-
-            <div className="relative z-10 space-y-6">
-              <h2 className="text-4xl md:text-5xl font-black gradient-text-animated">
-                Ready to Land Your Dream Job?
-              </h2>
-              <p className="text-xl text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
-                Join thousands of job seekers who have improved their resumes with AI-powered insights
-              </p>
-              <div className="pt-4">
-                <button
-                  onClick={() => navigate('/signup')}
-                  className="btn-primary text-xl px-12 py-5 shadow-2xl shadow-purple-500/40 hover:shadow-purple-500/60 group"
-                >
-                  <span className="flex items-center gap-3">
-                    Get Started for Free
-                    <svg className="w-7 h-7 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                  </span>
-                </button>
-              </div>
-            </div>
+      {/* Final CTA */}
+      <section className="w-full py-40 px-6 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-gray-800 dark:via-purple-900/20 dark:to-indigo-900/20">
+        <div className="max-w-4xl mx-auto text-center space-y-10">
+          <h2 className="text-5xl md:text-7xl font-black gradient-text-animated">
+            Ready to Land Your Dream Job?
+          </h2>
+          <p className="text-2xl md:text-3xl text-gray-700 dark:text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Join thousands of job seekers who have improved their resumes
+          </p>
+          <div className="pt-8">
+            <button
+              onClick={() => navigate('/signup')}
+              className="btn-primary text-2xl px-16 py-6 shadow-xl hover:shadow-2xl group"
+            >
+              <span className="flex items-center gap-4">
+                Get Started for Free
+                <svg className="w-7 h-7 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </button>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Footer */}
-      <footer className="relative z-10 mt-20 border-t border-purple-100/50 dark:border-purple-900/50 bg-white/50 dark:bg-gray-900/50 backdrop-blur-xl">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-gray-600 dark:text-gray-400">
-            <p className="text-sm">
+      <footer className="w-full py-12 px-6 border-t border-gray-200 dark:border-gray-800">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center text-gray-500 dark:text-gray-500">
+            <p className="text-base">
               © 2024 Resume Critiquer. AI-powered resume analysis and feedback.
             </p>
           </div>
