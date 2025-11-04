@@ -212,10 +212,47 @@ export default function Dashboard() {
         )}
 
         {analyzing && (
-          <div className="card text-center py-12 max-w-2xl mx-auto">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 dark:border-blue-400 mx-auto mb-4"></div>
-            <p className="text-lg text-gray-700 dark:text-gray-300">Analyzing your resume with AI...</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">This may take 10-30 seconds</p>
+          <div className="card text-center py-16 max-w-2xl mx-auto card-glow scale-in">
+            {/* Animated Gradient Spinner */}
+            <div className="relative mx-auto w-24 h-24 mb-8">
+              {/* Outer rotating ring */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 animate-spin"></div>
+
+              {/* Inner circle mask */}
+              <div className="absolute inset-2 rounded-full bg-white dark:bg-gray-800"></div>
+
+              {/* Center icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="p-4 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-full shadow-xl animate-pulse">
+                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 blur-xl opacity-30 animate-pulse"></div>
+            </div>
+
+            {/* Text Content */}
+            <div className="space-y-3">
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                Analyzing Your Resume
+              </h3>
+              <p className="text-lg text-gray-700 dark:text-gray-300 font-medium">
+                Our AI is carefully reviewing your resume...
+              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                This usually takes 10-30 seconds
+              </p>
+            </div>
+
+            {/* Progress dots */}
+            <div className="flex justify-center gap-2 mt-6">
+              <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce" style={{ animationDelay: '0s' }}></div>
+              <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{ animationDelay: '0.4s' }}></div>
+            </div>
           </div>
         )}
 

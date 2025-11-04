@@ -50,6 +50,7 @@ export default function InteractiveBackground() {
       // Get theme color (check if dark mode is active)
       const isDark = document.documentElement.classList.contains('dark');
       const baseColor = isDark ? '168, 85, 247' : '147, 51, 234'; // purple-500 for dark, purple-600 for light
+      const opacityMultiplier = isDark ? 1 : 2.5; // Increase opacity in light mode
 
       waves.current.forEach((wave, index) => {
         // Smoothly move wave towards mouse Y position
@@ -67,7 +68,7 @@ export default function InteractiveBackground() {
 
         // Draw wave
         ctx.beginPath();
-        ctx.strokeStyle = `rgba(${baseColor}, ${wave.opacity})`;
+        ctx.strokeStyle = `rgba(${baseColor}, ${wave.opacity * opacityMultiplier})`;
         ctx.lineWidth = 2;
 
         for (let x = 0; x < canvas.width; x += 5) {
@@ -97,7 +98,7 @@ export default function InteractiveBackground() {
 
               ctx.beginPath();
               ctx.arc(x, y, 2 * (1 + mouseInfluence), 0, Math.PI * 2);
-              ctx.fillStyle = `rgba(${baseColor}, ${wave.opacity * 3})`;
+              ctx.fillStyle = `rgba(${baseColor}, ${wave.opacity * 3 * opacityMultiplier})`;
               ctx.fill();
             }
           }
@@ -109,9 +110,9 @@ export default function InteractiveBackground() {
         mousePos.current.x, mousePos.current.y, 0,
         mousePos.current.x, mousePos.current.y, 150
       );
-      gradient.addColorStop(0, `rgba(${baseColor}, 0.1)`);
-      gradient.addColorStop(0.5, `rgba(${baseColor}, 0.03)`);
-      gradient.addColorStop(1, 'rgba(168, 85, 247, 0)');
+      gradient.addColorStop(0, `rgba(${baseColor}, ${0.1 * opacityMultiplier})`);
+      gradient.addColorStop(0.5, `rgba(${baseColor}, ${0.03 * opacityMultiplier})`);
+      gradient.addColorStop(1, `rgba(${baseColor}, 0)`);
 
       ctx.fillStyle = gradient;
       ctx.fillRect(
@@ -138,7 +139,6 @@ export default function InteractiveBackground() {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ mixBlendMode: 'screen' }}
     />
   );
 }

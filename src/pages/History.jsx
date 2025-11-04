@@ -170,21 +170,37 @@ export default function History() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* List of Analyses */}
             <div className="lg:col-span-1 space-y-4">
-              <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
-                Your Analyses ({analyses.length})
-              </h2>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-lg shadow-lg">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                  </svg>
+                </div>
+                <h2 className="text-xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+                  Your Analyses ({analyses.length})
+                </h2>
+              </div>
 
-              {analyses.map(analysis => (
+              {analyses.map((analysis, idx) => (
                 <div
                   key={analysis.id}
                   onClick={() => setSelectedAnalysis(analysis)}
-                  className={`card cursor-pointer transition hover:shadow-xl ${
-                    selectedAnalysis?.id === analysis.id ? 'ring-2 ring-blue-600 dark:ring-blue-400' : ''
+                  className={`card cursor-pointer transition-all duration-300 hover:scale-[1.02] group ${
+                    selectedAnalysis?.id === analysis.id
+                      ? 'ring-2 ring-purple-500 dark:ring-purple-400 shadow-xl shadow-purple-500/20'
+                      : 'hover:shadow-xl hover:shadow-purple-500/10'
                   }`}
+                  style={{ animationDelay: `${idx * 0.1}s` }}
                 >
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="flex-1">
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {/* Date and Delete Button */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-1.5 bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 rounded-lg">
+                        <svg className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                      <p className="text-xs font-medium text-gray-600 dark:text-gray-400">
                         {new Date(analysis.createdAt).toLocaleDateString('en-US', {
                           month: 'short',
                           day: 'numeric',
@@ -199,24 +215,52 @@ export default function History() {
                         e.stopPropagation();
                         handleDelete(analysis.id);
                       }}
-                      className="text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 text-sm"
+                      className="p-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 hover:scale-110 transition-all"
+                      title="Delete analysis"
                     >
-                      Delete
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
                     </button>
                   </div>
 
+                  {/* Score Display with Gradient */}
                   {analysis.critique?.overallScore && (
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Score:</span>
-                      <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                        {analysis.critique.overallScore}/10
-                      </span>
+                    <div className="relative mb-3 p-4 rounded-xl bg-gradient-to-br from-purple-50/50 to-indigo-50/50 dark:from-purple-900/20 dark:to-indigo-900/20 border border-purple-200/30 dark:border-purple-700/30">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="p-1.5 bg-gradient-to-br from-amber-400 to-orange-500 rounded-lg shadow-lg">
+                            <svg className="w-3.5 h-3.5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            </svg>
+                          </div>
+                          <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">Overall Score</span>
+                        </div>
+                        <div className="relative">
+                          <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-lg blur opacity-30 group-hover:opacity-50 transition-opacity"></div>
+                          <span className="relative text-2xl font-black bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+                            {analysis.critique.overallScore}/10
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   )}
 
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 line-clamp-2">
-                    {analysis.resumeText}
-                  </p>
+                  {/* Preview Text */}
+                  <div className="p-3 bg-gray-50/50 dark:bg-gray-800/50 rounded-lg border border-gray-200/50 dark:border-gray-700/50">
+                    <p className="text-xs text-gray-600 dark:text-gray-400 line-clamp-2 leading-relaxed">
+                      {analysis.resumeText}
+                    </p>
+                  </div>
+
+                  {/* Selected Indicator */}
+                  {selectedAnalysis?.id === analysis.id && (
+                    <div className="absolute top-2 right-2 p-1 bg-purple-500 rounded-full shadow-lg">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
