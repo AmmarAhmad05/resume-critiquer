@@ -626,23 +626,23 @@ section {
 
 /* Vibrant text colors for dark mode - replacing gray with more vibrant colors */
 .dark .text-gray-300 {
-  @apply text-purple-200;
+  color: #e9d5ff !important; /* purple-200 */
 }
 
 .dark .text-gray-400 {
-  @apply text-purple-300;
+  color: #d8b4fe !important; /* purple-300 */
 }
 
 .dark .text-gray-500 {
-  @apply text-purple-300;
+  color: #d8b4fe !important; /* purple-300 */
 }
 
 .dark .text-gray-600 {
-  @apply text-purple-200;
+  color: #e9d5ff !important; /* purple-200 */
 }
 
 .dark .text-gray-700 {
-  @apply text-indigo-200;
+  color: #c7d2fe !important; /* indigo-200 */
 }
 
 /* Vibrant text with subtle glow */
