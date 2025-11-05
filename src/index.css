@@ -550,3 +550,96 @@
 section {
   scroll-margin-top: 100px;
 }
+
+/* Dark Mode Text Glow for Enhanced Readability */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.3),
+               0 0 40px rgba(168, 85, 247, 0.15),
+               0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.dark p, .dark span, .dark div {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.15),
+               0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dark a {
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.2),
+               0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.dark button {
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.2),
+               0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.dark label {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.2),
+               0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dark .card h3, .dark .card h4, .dark .card p {
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.25),
+               0 0 30px rgba(168, 85, 247, 0.1),
+               0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced glow for gradient text in dark mode */
+.dark .gradient-text-animated {
+  text-shadow: 0 0 30px rgba(168, 85, 247, 0.5),
+               0 0 60px rgba(168, 85, 247, 0.3),
+               0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Navigation text glow */
+.dark nav a, .dark nav button {
+  text-shadow: 0 0 10px rgba(168, 85, 247, 0.2),
+               0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* Input field text glow */
+.dark input, .dark textarea {
+  text-shadow: 0 0 8px rgba(168, 85, 247, 0.15),
+               0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Button text enhanced glow */
+.dark .btn-primary, .dark .btn-secondary {
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.4),
+               0 0 24px rgba(168, 85, 247, 0.2),
+               0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* FAQ and card content glow */
+.dark .faq-item h4, .dark .faq-item p {
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.2),
+               0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Stat card numbers glow */
+.dark .stat-card-modern h2, .dark .stat-card h2 {
+  text-shadow: 0 0 25px rgba(168, 85, 247, 0.4),
+               0 0 50px rgba(168, 85, 247, 0.2),
+               0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Resume card text glow */
+.dark .resume-card h3, .dark .resume-card p {
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.25),
+               0 0 30px rgba(168, 85, 247, 0.12),
+               0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* White/light text gets stronger glow for better contrast */
+.dark .text-white, .dark .text-gray-100, .dark .text-gray-200 {
+  text-shadow: 0 0 15px rgba(168, 85, 247, 0.3),
+               0 0 30px rgba(168, 85, 247, 0.15),
+               0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Medium gray text gets moderate glow */
+.dark .text-gray-300, .dark .text-gray-400 {
+  text-shadow: 0 0 12px rgba(168, 85, 247, 0.25),
+               0 0 24px rgba(168, 85, 247, 0.12),
+               0 1px 3px rgba(0, 0, 0, 0.3);
+}
